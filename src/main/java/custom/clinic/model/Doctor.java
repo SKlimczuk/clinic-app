@@ -1,8 +1,15 @@
 package custom.clinic.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
+@Table(name = "doctors")
+@Getter
+@Setter
 public class Doctor {
 
     @Id
@@ -19,6 +26,9 @@ public class Doctor {
     private String email;
 
     private String password;
+
+    @OneToMany(mappedBy = "doctor")
+    private List<Visit> visits;
 
     public Doctor() {
     }

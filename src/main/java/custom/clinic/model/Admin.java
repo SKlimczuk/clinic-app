@@ -1,11 +1,14 @@
 package custom.clinic.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
 
 @Entity
+@Table(name = "admins")
+@Getter
+@Setter
 public class Admin {
 
     @Id
@@ -16,7 +19,10 @@ public class Admin {
 
     private String surname;
 
-    private String role;
+    @Column(unique = true)
+    private String email;
+
+    private String password;
 
     public Admin() {
     }

@@ -1,12 +1,15 @@
 package custom.clinic.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "visits")
+@Getter
+@Setter
 public class Visit {
 
     @Id
@@ -17,7 +20,13 @@ public class Visit {
 
     private LocalDateTime termOfVisit;
 
-    //relacje z lekarzem i pacjentem -> do zastanowienia
+    @ManyToOne
+    @JoinColumn(name = "patient_id")
+    private Patient patient;
+
+    @ManyToOne
+    @JoinColumn(name = "doctor_id")
+    private Doctor doctor;
 
     public Visit() {
     }

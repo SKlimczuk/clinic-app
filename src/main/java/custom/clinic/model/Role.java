@@ -1,10 +1,12 @@
 package custom.clinic.model;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "roles")
 public enum Role {
     ADMIN,
-    PATIENT,
-    DOCTOR
+    DOCTOR,
+    PATIENT
 }
