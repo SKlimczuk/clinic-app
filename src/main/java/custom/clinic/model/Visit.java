@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "visits")
@@ -18,7 +20,9 @@ public class Visit {
 
     private String note;
 
-    private LocalDateTime termOfVisit;
+    private LocalDate dateOfVisit;
+
+    private LocalTime timeOfVisit;
 
     @ManyToOne
     @JoinColumn(name = "patient_id")
