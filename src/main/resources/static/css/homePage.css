@@ -1,0 +1,21 @@
+header {
+    text-align: center;
+    background-color: black;
+    color: white;
+}
+
+nav {
+    text-align: center;
+    background-color: cadetblue;
+    color: white;
+}
+
+footer {
+    text-align: center;
+    background-color: black;
+    color: white;
+}
+
+.inline-block-item {
+    display: inline;
+}
