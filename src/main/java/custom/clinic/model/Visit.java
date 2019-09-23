@@ -18,6 +18,8 @@ public class Visit {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    private String tittle;
+
     private String note;
 
     private LocalDate dateOfVisit;

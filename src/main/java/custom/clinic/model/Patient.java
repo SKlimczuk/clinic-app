@@ -28,6 +28,8 @@ public class Patient {
 
     private String password;
 
+    private String phone;
+
     @OneToMany(mappedBy = "patient")
     private List<Visit> visits;
 

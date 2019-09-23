@@ -25,6 +25,8 @@ public class Doctor {
     @Column(unique = true)
     private String email;
 
+    private String phone;
+
     private String password;
 
     @OneToMany(mappedBy = "doctor")

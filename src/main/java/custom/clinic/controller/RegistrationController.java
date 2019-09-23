@@ -5,12 +5,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/")
-public class TestController {
+@RequestMapping("/register")
+public class RegistrationController {
 
     @GetMapping("/")
-    public String test()
+    public String registerPage()
     {
-        return "index.html";
+        return "registerPage.html";
     }
 }
