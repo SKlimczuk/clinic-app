@@ -1,6 +1,6 @@
 package custom.clinic.service.impl;
 
-import custom.clinic.dao.UserDao;
+import custom.clinic.dao.PatientDao;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,14 +12,14 @@ import javax.annotation.Resource;
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Resource
-    private UserDao patientDao;
+    private PatientDao patientDao;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return null;
+        return getPatientDao().findPatientByEmail(username);
     }
 
-    private UserDao getPatientDao() {
+    private PatientDao getPatientDao() {
         return patientDao;
     }
 }
