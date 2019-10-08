@@ -6,5 +6,6 @@ import javax.persistence.Table;
 public enum Role {
     ADMIN,
     DOCTOR,
-    PATIENT
+    PATIENT,
+    ANONYMOUS
 }

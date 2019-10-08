@@ -1,7 +1,6 @@
 package custom.clinic.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -9,6 +8,9 @@ import javax.persistence.*;
 @Table(name = "admins")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Admin {
 
     @Id
@@ -25,7 +27,4 @@ public class Admin {
     private String phone;
 
     private String password;
-
-    public Admin() {
-    }
 }

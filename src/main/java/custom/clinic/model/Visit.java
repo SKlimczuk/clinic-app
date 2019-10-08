@@ -1,7 +1,6 @@
 package custom.clinic.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -12,6 +11,9 @@ import java.time.LocalTime;
 @Table(name = "visits")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Visit {
 
     @Id
@@ -33,7 +35,4 @@ public class Visit {
     @ManyToOne
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
-
-    public Visit() {
-    }
 }

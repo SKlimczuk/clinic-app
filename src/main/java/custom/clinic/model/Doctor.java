@@ -1,7 +1,6 @@
 package custom.clinic.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,6 +9,9 @@ import java.util.List;
 @Table(name = "doctors")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Doctor {
 
     @Id
@@ -31,7 +33,4 @@ public class Doctor {
 
     @OneToMany(mappedBy = "doctor")
     private List<Visit> visits;
-
-    public Doctor() {
-    }
 }
