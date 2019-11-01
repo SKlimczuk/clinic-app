@@ -1,8 +1,7 @@
 package custom.clinic.controller;
 
 import custom.clinic.model.dto.RegisterForm;
-import custom.clinic.service.PatientService;
-import org.springframework.beans.factory.annotation.Autowired;
+import custom.clinic.service.UserService;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -20,7 +19,7 @@ import java.util.Date;
 public class RegistrationController {
 
     @Resource
-    PatientService patientService;
+    UserService userService;
     @Resource
     BCryptPasswordEncoder passwordEncoder;
 
@@ -34,14 +33,14 @@ public class RegistrationController {
     @PostMapping("/patient")
     public String afterRegister(@Valid @ModelAttribute("user") RegisterForm registerForm)
     {
-        patientService.save(
-                registerForm.getName(),
-                registerForm.getSurname(),
-                registerForm.getEmail(),
-                registerForm.getPesel(),
-                registerForm.getPhone(),
-                passwordEncoder.encode(registerForm.getPassword())
-                );
+//        userService.save(
+//                registerForm.getName(),
+//                registerForm.getSurname(),
+//                registerForm.getEmail(),
+//                registerForm.getPesel(),
+//                registerForm.getPhone(),
+//                passwordEncoder.encode(registerForm.getPassword())
+//                );
 
         return "homePage.html";
     }

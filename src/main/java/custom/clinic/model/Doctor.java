@@ -7,8 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "doctors")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -18,19 +17,8 @@ public class Doctor {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    private String name;
-
-    private String surname;
-
     private String specialization;
 
-    @Column(unique = true)
-    private String email;
-
-    private String phone;
-
-    private String password;
-
-    @OneToMany(mappedBy = "doctor")
-    private List<Visit> visits;
+    @OneToOne(mappedBy = "doctor")
+    private User user;
 }

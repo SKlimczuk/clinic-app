@@ -5,35 +5,37 @@
     <title>registration</title>
 </head>
 <body>
-    <form name="registerForm" action="#" th:action="@{/register/patient}" th:object="${user}" method="post">
-        <div>
-            name:<input type="text" th:field="*{name}">
-        </div>
-        <div>
-            surname:<input type="text" th:field="*{surname}">
-        </div>
-        <div>
-            email:<input type="email" th:field="*{email}">
-        </div>
-        <div>
-            pesel:<input type="text" th:field="*{pesel}">
-        </div>
-        <div>
-            date of birth:<input type="date" th:field="*{dateOfBirth}">
-        </div>
-        <div>
-            phone:<input type="text" th:field="*{phone}">
-        </div>
-        <div>
-            password:<input type="password" th:field="*{password}">
-        </div>
-        <div>
-            matching password:<input type="password" th:field="*{matchingPassword}">
-        </div>
-        <div>
-            <input type="submit" value="Register">
-            <input type="reset" value="Reset">
-        </div>
-    </form>
+    <div id="login-form">
+        <form name="registerForm" action="#" th:action="@{/register/user}" th:object="${user}" method="post">
+            <div>
+                name:<input type="text" th:field="*{name}">
+            </div>
+            <div>
+                surname:<input type="text" th:field="*{surname}">
+            </div>
+            <div>
+                email:<input type="email" th:field="*{email}">
+            </div>
+            <div>
+                pesel:<input type="text" th:field="*{pesel}">
+            </div>
+            <div>
+                date of birth:<input type="date" th:field="*{dateOfBirth}">
+            </div>
+            <div>
+                phone:<input type="text" th:field="*{phone}">
+            </div>
+            <div>
+                password:<input type="password" th:field="*{password}">
+            </div>
+            <div>
+                matching password:<input type="password" th:field="*{matchingPassword}">
+            </div>
+            <div>
+                <input type="submit" value="Register">
+                <input type="reset" value="Reset">
+            </div>
+        </form>
+    </div>
 </body>
 </html>

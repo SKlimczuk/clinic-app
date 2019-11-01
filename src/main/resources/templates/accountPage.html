@@ -1,10 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>account</title>
 </head>
 <body>
-    hello after login !!!
+    <div id="register-visit">
+        <h4>Register new visit</h4>
+        <form name="registerVisit" action="#" th:action="/register-visit/" th:object="${visit}" method="post">
+            <div>
+                date:<input type="date" th:field="*{dateOfVisit}">
+            </div>
+            <div>
+                time:<input type="time" th:field="*{timeOfVisit}">
+            </div>
+            <div>
+                <button type="submit">submit</button>
+            </div>
+        </form>
+    </div>
 </body>
 </html>

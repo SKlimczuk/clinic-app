@@ -3,26 +3,20 @@ package custom.clinic.model;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
 
 @Entity
-@Table(name = "visits")
+@Table(name = "notes")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Visit {
+public class Notes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    private String tittle;
-
-    private LocalDate dateOfVisit;
-
-    private LocalTime timeOfVisit;
+    private String note;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

@@ -1,6 +1,9 @@
 package custom.clinic.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,13 +14,12 @@ import java.util.Collections;
 import java.util.List;
 
 @Entity
-@Table(name = "patients")
-@Getter
-@Setter
+@Table(name = "users")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Patient implements UserDetails {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,8 +39,15 @@ public class Patient implements UserDetails {
 
     private String phone;
 
-    @OneToMany(mappedBy = "patient")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "doctor_id", referencedColumnName = "id")
+    private Doctor doctor;
+
+    @OneToMany(mappedBy = "user")
     private List<Visit> visits;
+
+    @OneToMany(mappedBy = "user")
+    private List<Notes> notes;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
