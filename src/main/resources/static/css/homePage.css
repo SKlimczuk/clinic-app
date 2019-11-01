@@ -1,0 +1,10 @@
+.body {
+    background: url("../../media/background.jpg");
+    background-size: cover;
+}
+
+.infoAndRegister {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+

@@ -30,17 +30,17 @@ public class RegistrationController {
         return "registerPage.html";
     }
 
-    @PostMapping("/patient")
+    @PostMapping("/user")
     public String afterRegister(@Valid @ModelAttribute("user") RegisterForm registerForm)
     {
-//        userService.save(
-//                registerForm.getName(),
-//                registerForm.getSurname(),
-//                registerForm.getEmail(),
-//                registerForm.getPesel(),
-//                registerForm.getPhone(),
-//                passwordEncoder.encode(registerForm.getPassword())
-//                );
+        userService.save(
+                registerForm.getName(),
+                registerForm.getSurname(),
+                registerForm.getEmail(),
+                registerForm.getPesel(),
+                registerForm.getPhone(),
+                passwordEncoder.encode(registerForm.getPassword())
+                );
 
         return "homePage.html";
     }
