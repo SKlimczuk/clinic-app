@@ -5,21 +5,104 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>account</title>
+    <link rel="stylesheet" href="../static/css/accountPage.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+
+    <script src="https://use.fontawesome.com/c4850ae3d6.js"></script>
 </head>
 <body>
-    <div id="register-visit">
-        <h4>Register new visit</h4>
-        <form name="registerVisit" action="#" th:action="/register-visit/" th:object="${visit}" method="post">
-            <div>
-                date:<input type="date" th:field="*{dateOfVisit}">
-            </div>
-            <div>
-                time:<input type="time" th:field="*{timeOfVisit}">
-            </div>
-            <div>
-                <button type="submit">submit</button>
-            </div>
-        </form>
+
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/account/">CLINIC</a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#incoming-visits">INCOMING</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#new-visit">NEW</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#history">HISTORY</a>
+                </li>
+            </ul>
+        </div>
     </div>
+</nav>
+
+<div class="container-fluid">
+    <div id="incoming-visits" class="row">
+        <div col-8>
+            <div th:if="${incVisits!=null and !incVisits.isEmpty()}">
+                PUSTO
+            </div>
+            <div th:unless="${incVisits!=null and !incVisits.isEmpty()}">
+                NIE PUSTO
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div id="new-visit" class="row justify-content-center">
+        <div class="col-8">
+            <form name="newVisitForm" action="#" th:action="@{/register/visit}" th:object="${visit}" method="post">
+                <div class="form-group">
+                    <label for="doctor">Doctor:</label>
+                    <select id="doctor" class="form-control" th:field="*{doctor}">
+                        <option>Jan Kowalski</option>
+                        <option>Marian Niekowalski</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="visit-date">Date:</label>
+                    <input id="visit-date" class="form-control" type="date" th:field="*{dateOfVisit}">
+                </div>
+                <div class="form-group">
+                    <label for="visit-time">Time</label>
+                    <select id="visit-time" class="form-control" th:field="*{timeOfVisit}">
+                        <option>8</option>
+                        <option>9</option>
+                        <option>10</option>
+                        <option>11</option>
+                        <option>12</option>
+                        <option>13</option>
+                        <option>14</option>
+                        <option>15</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="note">Note:</label>
+                    <input id="note" class="form-control" type="text" th:field="*{note}">
+                </div>
+                <div>
+                    <input type="submit" class="btn btn-outline-success btn-block" value="REGISTER NEW VISIT">
+                    <input type="reset" class="btn btn-outline-dark btn-block" value="RESET">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <hr>
+
+    <div id="history" class="row">
+
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 </body>
 </html>

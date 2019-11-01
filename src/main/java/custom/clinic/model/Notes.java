@@ -3,6 +3,7 @@ package custom.clinic.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "notes")
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Notes {
+public class Notes implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

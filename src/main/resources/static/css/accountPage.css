@@ -1,0 +1,11 @@
+body {
+    background: url("../../media/background.jpg");
+    background-size: cover;
+}
+
+hr {
+    display: block;
+    margin: 0.5em auto;
+    border-style: inset;
+    border-width: 1px;
+}
