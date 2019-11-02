@@ -40,8 +40,7 @@ public class User implements UserDetails, Serializable {
 
     private String phone;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "doctor_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "user")
     private Doctor doctor;
 
     @OneToMany(mappedBy = "user")

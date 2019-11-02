@@ -1,6 +1,9 @@
 package custom.clinic.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,9 +23,15 @@ public class Doctor implements Serializable {
 
     private String specialization;
 
-    @OneToOne(mappedBy = "doctor")
+    @OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
     @OneToMany(mappedBy = "doctor")
     private List<Visit> visits;
+
+    @Override
+    public String toString() {
+        return  "dr " + this.specialization + " " + this.user.getName() + " " + this.user.getSurname();
+    }
 }

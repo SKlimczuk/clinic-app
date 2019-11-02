@@ -2,6 +2,7 @@ package custom.clinic.service.impl;
 
 import custom.clinic.dao.UserDao;
 import custom.clinic.dao.VisitDao;
+import custom.clinic.model.Doctor;
 import custom.clinic.model.User;
 import custom.clinic.model.Visit;
 import custom.clinic.service.VisitService;
@@ -9,9 +10,11 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 public class DefaultVisitService implements VisitService {
@@ -20,6 +23,9 @@ public class DefaultVisitService implements VisitService {
     private VisitDao visitDao;
     @Resource
     private UserDao userDao;
+
+    private final int FIRST_VISIT_TIME = 8;
+    private final int LAST_VISIT_TIME = 15;
 
     @Override
     public void save(Visit visit) {
@@ -54,5 +60,27 @@ public class DefaultVisitService implements VisitService {
         return visits.stream()
                 .filter(visit -> visit.getDateOfVisit().isAfter(LocalDate.now()))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Integer> getAvailableVisitsForChosenDoctorAndDay(Doctor doctor, LocalDate localDate) {
+        List<Visit> reservedVisits = visitDao.getAllByDoctorAndDateOfVisit(doctor, localDate);
+
+        List<Integer> scheduleList = prepareTimeScheduleForSingleDay();
+        for (Visit reservedVisit : reservedVisits) {
+            scheduleList.removeIf(s -> s.equals(Integer.valueOf(reservedVisit.getTimeOfVisit())));
+        }
+
+        return scheduleList;
+    }
+
+    private List<Integer> prepareTimeScheduleForSingleDay() {
+        List<Integer> scheduleList = new ArrayList<>();
+
+        for (int i = FIRST_VISIT_TIME; i <= LAST_VISIT_TIME; i++) {
+            scheduleList.add(i);
+        }
+
+        return scheduleList;
     }
 }

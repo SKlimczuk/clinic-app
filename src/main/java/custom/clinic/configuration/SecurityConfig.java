@@ -1,7 +1,6 @@
 package custom.clinic.configuration;
 
 import custom.clinic.service.impl.CustomUserDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -28,20 +27,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .csrf()
+                .disable()
                 .authorizeRequests()
-                .antMatchers("/static/**")
-                .permitAll()
+                .antMatchers("/").permitAll()
+                .antMatchers("/register/**").permitAll()
+                .antMatchers("/resources/**").permitAll()
+                .antMatchers("/static/css/**").permitAll()
+                .antMatchers("/static/js/**").permitAll()
+                .antMatchers("/media/**").permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/")
-                .defaultSuccessUrl("/account/")
-                .and()
-                .logout()
-                .logoutUrl("/account/logout")
-                .logoutSuccessUrl("/my/index")
-                .invalidateHttpSession(true)
-                .and()
-                .httpBasic();
+                .defaultSuccessUrl("/account/");
     }
 
     @Bean

@@ -9,3 +9,16 @@ hr {
     border-style: inset;
     border-width: 1px;
 }
+
+.incomingVisits {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+th[colspan="4"] {
+    text-align: center;
+}
+
+td, i, span {
+    text-align: center;
+}

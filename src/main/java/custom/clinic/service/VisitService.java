@@ -1,7 +1,9 @@
 package custom.clinic.service;
 
+import custom.clinic.model.Doctor;
 import custom.clinic.model.Visit;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface VisitService {
@@ -11,4 +13,6 @@ public interface VisitService {
     List<Visit> getAllPreviousVisitsForUser(String username);
 
     List<Visit> getAllIncomingVisitsForUser(String username);
+
+    List<Integer> getAvailableVisitsForChosenDoctorAndDay(Doctor doctor, LocalDate localDate);
 }
