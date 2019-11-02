@@ -32,15 +32,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/register/**").permitAll()
-                .antMatchers("/resources/**").permitAll()
-                .antMatchers("/static/css/**").permitAll()
-                .antMatchers("/static/js/**").permitAll()
+                .antMatchers("/css/**").permitAll()
+                .antMatchers("/js/**").permitAll()
                 .antMatchers("/media/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/")
                 .defaultSuccessUrl("/account/");
+
     }
 
     @Bean
