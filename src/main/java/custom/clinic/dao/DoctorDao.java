@@ -7,4 +7,5 @@ import javax.print.Doc;
 import java.util.List;
 
 public interface DoctorDao extends JpaRepository<Doctor, Integer> {
+    Doctor getDoctorById(int id);
 }

@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Table(name = "visits")
@@ -32,4 +33,7 @@ public class Visit implements Serializable {
     @ManyToOne
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
+
+    @OneToMany(mappedBy = "visit")
+    private List<Note> notes;
 }

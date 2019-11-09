@@ -1,11 +1,11 @@
 package custom.clinic.configuration;
 
 import custom.clinic.dao.DoctorDao;
-import custom.clinic.dao.NotesDao;
+import custom.clinic.dao.NoteDao;
 import custom.clinic.dao.UserDao;
 import custom.clinic.dao.VisitDao;
 import custom.clinic.model.Doctor;
-import custom.clinic.model.Notes;
+import custom.clinic.model.Note;
 import custom.clinic.model.User;
 import custom.clinic.model.Visit;
 import org.springframework.boot.ApplicationArguments;
@@ -26,7 +26,7 @@ public class InitialTestData implements ApplicationRunner {
     @Resource
     private DoctorDao doctorDao;
     @Resource
-    private NotesDao notesDao;
+    private NoteDao notesDao;
     @Resource
     BCryptPasswordEncoder passwordEncoder;
 
@@ -49,6 +49,9 @@ public class InitialTestData implements ApplicationRunner {
         doctorDao.save(doctor);
         doctorDao.save(doctor2);
 
+        Visit visit = Visit.builder().user(user).dateOfVisit(LocalDate.now()).timeOfVisit(12).build();
+
+        visitDao.save(visit);
         visitDao.save(Visit.builder().dateOfVisit(LocalDate.now()).timeOfVisit(9).user(user).doctor(doctor).build());
         visitDao.save(Visit.builder().dateOfVisit(LocalDate.of(2020,12,23)).timeOfVisit(9).user(user).doctor(doctor).build());
         visitDao.save(Visit.builder().dateOfVisit(LocalDate.of(2021,12,23)).timeOfVisit(9).user(user).doctor(doctor).build());
@@ -58,8 +61,8 @@ public class InitialTestData implements ApplicationRunner {
         visitDao.save(Visit.builder().dateOfVisit(LocalDate.of(2007,11,9)).timeOfVisit(9).user(user).doctor(doctor).build());
         visitDao.save(Visit.builder().dateOfVisit(LocalDate.of(2006,11,9)).timeOfVisit(9).user(user).doctor(doctor).build());
 
-        notesDao.save(Notes.builder().note("note1").user(user).build());
-        notesDao.save(Notes.builder().note("note2").user(user).build());
-        notesDao.save(Notes.builder().note("note3").user(user).build());
+        notesDao.save(Note.builder().note("note1").visit(visit).build());
+        notesDao.save(Note.builder().note("note2").visit(visit).build());
+        notesDao.save(Note.builder().note("note3").visit(visit).build());
     }
 }

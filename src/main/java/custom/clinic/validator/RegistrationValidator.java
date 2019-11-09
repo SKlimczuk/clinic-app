@@ -78,6 +78,10 @@ public class RegistrationValidator {
         int year = yearPrefix*100 + Integer.parseInt(pesel.substring(0, 2));
         int month = Integer.parseInt(pesel.substring(2, 4));
         int day = Integer.parseInt(pesel.substring(4, 6));
+        //todo: extract it to method
+        if (month < 1 || month > 12 || day < 1 || day > 31) {
+            return false;
+        }
 
         return date.compareTo(LocalDate.of(year,month,day)) == 0;
     }

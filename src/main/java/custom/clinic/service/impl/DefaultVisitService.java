@@ -5,6 +5,8 @@ import custom.clinic.dao.VisitDao;
 import custom.clinic.model.Doctor;
 import custom.clinic.model.User;
 import custom.clinic.model.Visit;
+import custom.clinic.model.dto.VisitForm;
+import custom.clinic.service.UserService;
 import custom.clinic.service.VisitService;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Service
 public class DefaultVisitService implements VisitService {
@@ -22,7 +23,7 @@ public class DefaultVisitService implements VisitService {
     @Resource
     private VisitDao visitDao;
     @Resource
-    private UserDao userDao;
+    private UserService userService;
 
     private final int FIRST_VISIT_TIME = 8;
     private final int LAST_VISIT_TIME = 15;
@@ -33,8 +34,18 @@ public class DefaultVisitService implements VisitService {
     }
 
     @Override
+    public Visit createVisitFromDto(VisitForm visitDto) {
+        return Visit.builder()
+                .user(userService.getCurrentUser())
+                .doctor(visitDto.getDoctor())
+                .dateOfVisit(visitDto.getDateOfVisit())
+                .timeOfVisit(visitDto.getTimeOfVisit())
+                .build();
+    }
+
+    @Override
     public List<Visit> getAllPreviousVisitsForUser(String username) {
-        User user = userDao.findUserByEmail(username);
+        User user = userService.getUserByEmail(username);
 
         List<Visit> visits = visitDao.getAllByUser(user);
 
@@ -49,7 +60,7 @@ public class DefaultVisitService implements VisitService {
 
     @Override
     public List<Visit> getAllIncomingVisitsForUser(String username) {
-        User user = userDao.findUserByEmail(username);
+        User user = userService.getUserByEmail(username);
 
         List<Visit> visits = visitDao.getAllByUser(user);
 

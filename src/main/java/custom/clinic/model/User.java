@@ -46,9 +46,6 @@ public class User implements UserDetails, Serializable {
     @OneToMany(mappedBy = "user")
     private List<Visit> visits;
 
-    @OneToMany(mappedBy = "user")
-    private List<Notes> notes;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority("PATIENT"));

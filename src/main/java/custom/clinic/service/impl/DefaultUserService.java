@@ -4,6 +4,7 @@ import custom.clinic.dao.UserDao;
 import custom.clinic.model.User;
 import custom.clinic.model.dto.RegisterForm;
 import custom.clinic.service.UserService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,15 +14,14 @@ import javax.annotation.Resource;
 public class DefaultUserService implements UserService {
 
     @Resource
-    private UserDao patientDao;
+    private UserDao userDao;
     @Resource
     private BCryptPasswordEncoder passwordEncoder;
 
-
     @Override
     public void save(User user) {
-        try{
-            patientDao.save(user);
+        try {
+            userDao.save(user);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -37,5 +37,20 @@ public class DefaultUserService implements UserService {
                 .phone(userDto.getPhone())
                 .password(passwordEncoder.encode(userDto.getPassword()))
                 .build();
+    }
+
+    @Override
+    public User getCurrentUser() {
+        return  (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
+    @Override
+    public User getUserByNameAndSurname(String name, String surname) {
+        return userDao.findUserByNameAndSurname(name, surname);
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        return userDao.findUserByEmail(email);
     }
 }

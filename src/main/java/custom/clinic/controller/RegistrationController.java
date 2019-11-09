@@ -52,7 +52,7 @@ public class RegistrationController {
 
 //        emailService.sendEmail("klimczukszymon@gmail.com", "hello", "test");
 
-        return "homePage.html";
+        return "redirect:/";
     }
 
     @InitBinder
