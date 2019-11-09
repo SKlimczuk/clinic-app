@@ -1,6 +1,11 @@
 package custom.clinic.service;
 
+import custom.clinic.model.User;
+import custom.clinic.model.dto.RegisterForm;
+
 public interface UserService {
 
-    void save(String name, String surname, String email, String pesel, String phone, String password);
+    void save(User user);
+
+    User createUserFromDto(RegisterForm userDto);
 }

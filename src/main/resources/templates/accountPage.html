@@ -31,16 +31,19 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#history">HISTORY</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">LOG OUT</a>
+                </li>
             </ul>
         </div>
     </div>
 </nav>
 
 <div class="container-fluid">
-    <div id="incoming-visits" class="row justify-content-center">
+    <div id="incoming-visits" class="incomingVisits row justify-content-center">
         <div col-8>
             <div th:if="${incVisits!=null and !incVisits.isEmpty()}">
-                <table class="table incomingVisits">
+                <table class="table">
                     <thead class="thead-dark">
                         <tr>
                             <th colspan="4">INCOMING VISITS</th>
@@ -59,7 +62,7 @@
                                 <td th:text="${visit.timeOfVisit}"></td>
                                 <td th:text="${visit.doctor}"></td>
                                 <td>
-                                    <span>
+                                    <span onclick="showNotes()">
                                         <i class="fas fa-clipboard"></i>
                                     </span>
                                 </td>
@@ -85,7 +88,8 @@
                     <label for="doctor">Doctor:</label>
                     <select id="doctor" class="form-control" th:field="*{doctor}">
                         <option th:each="doctor : ${doctors}"
-                                th:value="${doctor}">
+                                th:value="${doctor}"
+                                th:text="${doctor}">
                         </option>
                     </select>
                 </div>
@@ -169,7 +173,16 @@
     </div>
 </footer>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+<div class="notes-modal modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            here notes will be show
+        </div>
+    </div>
+</div>
+
+<script src="/js/accountPage.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"

@@ -3,6 +3,11 @@ body {
     background-size: cover;
 }
 
+footer {
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
 hr {
     display: block;
     margin: 0.5em auto;
@@ -15,10 +20,19 @@ hr {
     margin-bottom: 20px;
 }
 
+.previousVisits {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
 th[colspan="4"] {
     text-align: center;
 }
 
-td, i, span {
+td, span, i {
     text-align: center;
+}
+
+i:hover {
+    color: dimgrey;
 }

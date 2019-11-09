@@ -3,8 +3,8 @@ package custom.clinic.controller;
 import custom.clinic.model.dto.RegisterForm;
 import custom.clinic.service.EmailService;
 import custom.clinic.service.UserService;
+import custom.clinic.validator.RegistrationValidator;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -14,6 +14,7 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping("/register")
@@ -21,10 +22,10 @@ public class RegistrationController {
 
     @Resource
     private UserService userService;
+//    @Resource
+//    private EmailService emailService;
     @Resource
-    private BCryptPasswordEncoder passwordEncoder;
-    @Resource
-    private EmailService emailService;
+    private RegistrationValidator registrationValidator;
 
     @GetMapping("/")
     public String registerPage(Model model)
@@ -34,16 +35,20 @@ public class RegistrationController {
     }
 
     @PostMapping("/user")
-    public String afterRegister(@Valid @ModelAttribute("user") RegisterForm registerForm)
+    public String afterRegister(@Valid @ModelAttribute("user") RegisterForm registerForm, Model model)
     {
-        userService.save(
-                registerForm.getName(),
-                registerForm.getSurname(),
-                registerForm.getEmail(),
-                registerForm.getPesel(),
-                registerForm.getPhone(),
-                passwordEncoder.encode(registerForm.getPassword())
-                );
+        List<String> errors = registrationValidator.isRegistrationFormValid(registerForm);
+
+        if(!errors.isEmpty())
+        {
+            model.addAttribute("errors", errors);
+            model.addAttribute("isFormValid", false);
+            return "registerPage.html";
+        }
+
+        model.addAttribute("isFormValid", true);
+
+        userService.save(userService.createUserFromDto(registerForm));
 
 //        emailService.sendEmail("klimczukszymon@gmail.com", "hello", "test");
 
@@ -51,10 +56,11 @@ public class RegistrationController {
     }
 
     @InitBinder
-    public void initBinder(WebDataBinder binder){
+    public void initBinder(WebDataBinder binder)
+    {
         binder.registerCustomEditor(
                 Date.class,
-                new CustomDateEditor(new SimpleDateFormat("dd-MM-yyyy"),
+                new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"),
                         true,
                         10));
     }
