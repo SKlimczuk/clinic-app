@@ -13,6 +13,8 @@ public interface VisitService {
 
     Visit createVisitFromDto(VisitForm visitDto);
 
+    Visit getVisitById(int id);
+
     List<Visit> getAllPreviousVisitsForUser(String username);
 
     List<Visit> getAllIncomingVisitsForUser(String username);

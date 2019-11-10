@@ -12,6 +12,8 @@ import java.util.List;
 
 public interface VisitDao extends JpaRepository<Visit, Integer> {
 
+    Visit getById(int id);
+
     List<Visit> getAllByUser(User user);
 
     List<Visit> getAllByDoctorAndDateOfVisit(Doctor doctor, LocalDate dateOfVisit);

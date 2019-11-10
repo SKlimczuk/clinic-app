@@ -8,6 +8,7 @@ import custom.clinic.service.NoteService;
 import custom.clinic.service.VisitService;
 import custom.clinic.validator.VisitRegistrationValidator;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,10 +17,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
+import javax.print.attribute.standard.Media;
 import javax.validation.Valid;
+import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/account")
@@ -68,10 +73,15 @@ public class AccountPageController {
         return "redirect:/account/";
     }
 
-//    @GetMapping("/visits/{id}")
-//    public String getNotesForVisit() {
-//
-//    }
+    @GetMapping(path = "/notes", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Map<String, Object> getNotesForVisit(@RequestParam int id) {
+        Map<String, Object> result = new HashMap<>();
+
+        result.put("notes", noteService.getAllNotesForVisit(visitService.getVisitById(id)));
+
+        return result;
+    }
 
     @InitBinder
     public void initBinder(WebDataBinder binder)

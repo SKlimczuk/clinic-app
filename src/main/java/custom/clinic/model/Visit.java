@@ -1,5 +1,6 @@
 package custom.clinic.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -35,5 +36,6 @@ public class Visit implements Serializable {
     private Doctor doctor;
 
     @OneToMany(mappedBy = "visit")
+    @JsonManagedReference
     private List<Note> notes;
 }

@@ -44,6 +44,11 @@ public class DefaultVisitService implements VisitService {
     }
 
     @Override
+    public Visit getVisitById(int id) {
+        return visitDao.getById(id);
+    }
+
+    @Override
     public List<Visit> getAllPreviousVisitsForUser(String username) {
         User user = userService.getUserByEmail(username);
 

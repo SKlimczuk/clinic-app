@@ -1,5 +1,6 @@
 package custom.clinic.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,5 +22,11 @@ public class Note implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "visit_id")
+    @JsonBackReference
     private Visit visit;
+
+    @Override
+    public String toString() {
+        return "note=" + note;
+    }
 }
