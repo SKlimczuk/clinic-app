@@ -1,6 +1,7 @@
 package custom.clinic.service;
 
 import custom.clinic.model.Doctor;
+import custom.clinic.model.User;
 import custom.clinic.model.Visit;
 import custom.clinic.model.dto.VisitForm;
 
@@ -15,9 +16,11 @@ public interface VisitService {
 
     Visit getVisitById(int id);
 
-    List<Visit> getAllPreviousVisitsForUser(String username);
+    List<Visit> getAllIncOrPrevVisitsForUser(User user, String when);
 
-    List<Visit> getAllIncomingVisitsForUser(String username);
+    List<Visit> getAllDailyDoctorsVisits(Doctor doctor);
 
     List<Integer> getAvailableVisitsForChosenDoctorAndDay(Doctor doctor, LocalDate localDate);
+
+    void addNoteToVisit(int id, String note);
 }

@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta charset="UTF-8">
@@ -25,8 +27,14 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#incoming-visits">INCOMING</a>
                 </li>
-                <li class="nav-item">
+                <li  sec:authorize="hasRole('ROLE_PATIENT')" class="nav-item">
                     <a class="nav-link" href="#new-visit">NEW</a>
+                </li>
+                <li  sec:authorize="hasRole('ROLE_DOCTOR')" class="nav-item">
+                    <a class="nav-link" href="#today-visits">DAILY</a>
+                </li>
+                <li  sec:authorize="hasRole('ROLE_DOCTOR')" class="nav-item">
+                    <a class="nav-link" href="#leave">LEAVE</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#history">HISTORY</a>
@@ -81,50 +89,114 @@
 
     <hr>
 
-    <div id="new-visit" class="row justify-content-center">
-        <div class="col-8">
+    <div sec:authorize="hasRole('ROLE_PATIENT')">
+        <div id="new-visit" class="row justify-content-center">
+            <div class="col-8">
 
-            <div th:if="${isFormValid == false}" class="alert">
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Form is not valid</strong> Please try again.
-                    <ul>
-                        <li th:each="error:${errors}" th:text="${error}"></li>
-                    </ul>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                <div th:if="${isFormValid == false}" class="alert">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Form is not valid</strong> Please try again.
+                        <ul>
+                            <li th:each="error:${errors}" th:text="${error}"></li>
+                        </ul>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+
+                <form name="newVisitForm" action="#" th:action="@{/account/register/visit}" th:object="${visit}" method="post">
+                    <div class="form-group">
+                        <label for="doctor">Doctor:</label>
+                        <select id="doctor" class="form-control" th:field="*{doctor}" required>
+                            <option th:each="doctor : ${doctors}"
+                                    th:value="${doctor.id}"
+                                    th:text="${doctor}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="visit-date">Date:</label>
+                        <input id="visit-date" class="form-control" type="date" th:field="*{dateOfVisit}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="visit-time">Time</label>
+                        <select id="visit-time" class="form-control" th:field="*{timeOfVisit}" required>
+                            <option th:value="8">8</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="note">Note:</label>
+                        <input id="note" class="form-control" type="text" th:field="*{note}">
+                    </div>
+                    <div>
+                        <input type="submit" class="btn btn-outline-success btn-block" value="REGISTER NEW VISIT">
+                        <input type="reset" class="btn btn-outline-dark btn-block" value="RESET">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div sec:authorize="hasRole('ROLE_DOCTOR')">
+        <div id="today-visits" class="todayVisits row justify-content-center">
+            <div col-8>
+                <div th:if="${dailyVisits!=null and !dailyVisits.isEmpty()}">
+                    <table class="table">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th colspan="4">DAILY VISITS</th>
+                        </tr>
+                        <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Time</th>
+                            <th scope="col">Doctor</th>
+                            <th scope="col">Notes</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <th:block th:each="visit : ${dailyVisits}">
+                            <tr>
+                                <td th:text="${visit.dateOfVisit}"></td>
+                                <td th:text="${visit.timeOfVisit}"></td>
+                                <td th:text="${visit.doctor}"></td>
+                                <td>
+                                    <span class="note-icon" th:onclick="'showNotesModal(\'' + ${visit.id} + '\');'">
+                                        <i class="fas fa-clipboard"></i>
+                                    </span>
+                                </td>
+                            </tr>
+                        </th:block>
+                        </tbody>
+                    </table>
+                </div>
+                <div th:unless="${incVisits!=null and !incVisits.isEmpty()}">
+                    <div class="alert alert-info" role="alert">
+                        You don't have any visits planned for today.
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <form name="newVisitForm" action="#" th:action="@{/account/register/visit}" th:object="${visit}" method="post">
-                <div class="form-group">
-                    <label for="doctor">Doctor:</label>
-                    <select id="doctor" class="form-control" th:field="*{doctor}" required>
-                        <option th:each="doctor : ${doctors}"
-                                th:value="${doctor.id}"
-                                th:text="${doctor}">
-                        </option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="visit-date">Date:</label>
-                    <input id="visit-date" class="form-control" type="date" th:field="*{dateOfVisit}" required>
-                </div>
-                <div class="form-group">
-                    <label for="visit-time">Time</label>
-                    <select id="visit-time" class="form-control" th:field="*{timeOfVisit}" required>
-                        <option th:value="8">8</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="note">Note:</label>
-                    <input id="note" class="form-control" type="text" th:field="*{note}">
-                </div>
-                <div>
-                    <input type="submit" class="btn btn-outline-success btn-block" value="REGISTER NEW VISIT">
-                    <input type="reset" class="btn btn-outline-dark btn-block" value="RESET">
-                </div>
-            </form>
+        <hr>
+
+        <div id="leave" class="leave row justify-content-center">
+            <div col-8>
+                <form name="leaveForm" action="#" th:action="@{/account/leave}" th:object="${leave}" method="post">
+                    <div class="form-group">
+                        <label for="from-date">Begin:</label>
+                        <input id="from-date" class="form-control" type="date" th:field="*{startLeave}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="to-date">End:</label>
+                        <input id="to-date" class="form-control" type="date" th:field="*{endLeave}" required>
+                    </div>
+                    <div>
+                        <input type="submit" class="btn btn-outline-success btn-block" value="APPLY FOR LEAVE">
+                        <input type="reset" class="btn btn-outline-dark btn-block" value="RESET">
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -132,21 +204,30 @@
         <div class="modal-dialog modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
+                    <span id="modal-visit-id" value="" hidden></span>
                     <h5 class="modal-title" id="exampleModalScrollableTitle">Notes</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body" id="modal-body">
+                    <div id="modal-notes-list">
 
+                    </div>
+                    <form>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label">Message:</label>
+                            <textarea class="form-control" id="message-text"></textarea>
+                        </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" id="add-note-btn" class="btn btn-primary" data-dismiss="modal">Send message</button>
                 </div>
             </div>
         </div>
     </div>
-
 
     <hr>
 
@@ -183,7 +264,7 @@
             </div>
             <div th:unless="${incVisits!=null and !incVisits.isEmpty()}">
                 <div class="alert alert-info" role="alert">
-                    You don't have any previous visits.
+                    You do not have any previous visits.
                 </div>
             </div>
         </div>
@@ -218,4 +299,3 @@
         crossorigin="anonymous"></script>
 <script src="/js/accountPage.js"></script>
 </body>
-</html>

@@ -2,14 +2,15 @@ package custom.clinic.controller;
 
 import custom.clinic.model.User;
 import custom.clinic.model.Visit;
+import custom.clinic.model.dto.LeaveForm;
 import custom.clinic.model.dto.VisitForm;
 import custom.clinic.service.DoctorService;
 import custom.clinic.service.NoteService;
+import custom.clinic.service.UserService;
 import custom.clinic.service.VisitService;
 import custom.clinic.validator.VisitRegistrationValidator;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -17,9 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
-import javax.print.attribute.standard.Media;
 import javax.validation.Valid;
-import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -30,6 +29,9 @@ import java.util.Map;
 @RequestMapping("/account")
 public class AccountPageController {
 
+    private static final String PREVIOUS = "PREV";
+    private static final String INCOMING = "INC";
+
     @Resource
     private VisitService visitService;
     @Resource
@@ -38,15 +40,24 @@ public class AccountPageController {
     private VisitRegistrationValidator visitValidator;
     @Resource
     private NoteService noteService;
+    @Resource
+    private UserService userService;
 
     @GetMapping("/")
     public String accountPage(Model model) {
-        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = userService.getCurrentUser();
 
-        model.addAttribute("visit", new VisitForm());
-        model.addAttribute("prevVisits", visitService.getAllPreviousVisitsForUser(currentUser.getUsername()));
-        model.addAttribute("incVisits", visitService.getAllIncomingVisitsForUser(currentUser.getUsername()));
-        model.addAttribute("doctors", doctorService.getAllDoctors());
+        model.addAttribute("prevVisits", visitService.getAllIncOrPrevVisitsForUser(currentUser, PREVIOUS));
+        model.addAttribute("incVisits", visitService.getAllIncOrPrevVisitsForUser(currentUser, INCOMING));
+
+        if (userService.isDoctor(currentUser)) {
+            model.addAttribute("dailyVisits", visitService.getAllDailyDoctorsVisits(currentUser.getDoctor()));
+            model.addAttribute("leave", new LeaveForm());
+        }
+        else {
+            model.addAttribute("visit", new VisitForm());
+            model.addAttribute("doctors", doctorService.getAllDoctors());
+        }
 
         return "/accountPage.html";
     }
@@ -79,6 +90,22 @@ public class AccountPageController {
         Map<String, Object> result = new HashMap<>();
 
         result.put("notes", noteService.getAllNotesForVisit(visitService.getVisitById(id)));
+
+        return result;
+    }
+
+    @GetMapping(path = "/add-note")
+    @ResponseBody
+    public String getNotesForVisit(@RequestParam(name = "id") int id, @RequestParam(name = "note") String note) {
+        visitService.addNoteToVisit(id, note);
+
+        return "success";
+    }
+
+    @GetMapping(path = "/free-hours", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Map<String, Object> getFreeVisitsHours(@RequestParam int date) {
+        Map<String, Object> result = new HashMap<>();
 
         return result;
     }

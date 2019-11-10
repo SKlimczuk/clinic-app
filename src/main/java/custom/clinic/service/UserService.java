@@ -14,4 +14,8 @@ public interface UserService {
     User createUserFromDto(RegisterForm userDto);
 
     User getCurrentUser();
+
+    boolean isDoctor(User user);
+
+    boolean isPatient(User user);
 }

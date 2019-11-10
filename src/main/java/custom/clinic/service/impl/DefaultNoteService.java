@@ -5,7 +5,6 @@ import custom.clinic.model.Note;
 import custom.clinic.model.Visit;
 import custom.clinic.model.dto.VisitForm;
 import custom.clinic.service.NoteService;
-import custom.clinic.service.UserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

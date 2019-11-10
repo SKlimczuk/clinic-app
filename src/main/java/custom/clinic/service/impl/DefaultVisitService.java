@@ -1,11 +1,12 @@
 package custom.clinic.service.impl;
 
-import custom.clinic.dao.UserDao;
 import custom.clinic.dao.VisitDao;
 import custom.clinic.model.Doctor;
+import custom.clinic.model.Note;
 import custom.clinic.model.User;
 import custom.clinic.model.Visit;
 import custom.clinic.model.dto.VisitForm;
+import custom.clinic.service.NoteService;
 import custom.clinic.service.UserService;
 import custom.clinic.service.VisitService;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,8 @@ public class DefaultVisitService implements VisitService {
 
     @Resource
     private VisitDao visitDao;
+    @Resource
+    private NoteService noteService;
     @Resource
     private UserService userService;
 
@@ -49,33 +52,20 @@ public class DefaultVisitService implements VisitService {
     }
 
     @Override
-    public List<Visit> getAllPreviousVisitsForUser(String username) {
-        User user = userService.getUserByEmail(username);
+    public List<Visit> getAllIncOrPrevVisitsForUser(User user, String when) {
 
-        List<Visit> visits = visitDao.getAllByUser(user);
+        List<Visit> visits = userService.isDoctor(user) ? visitDao.getAllByDoctor(user.getDoctor()) : visitDao.getAllByUser(user);
 
         if (visits.isEmpty()) {
             return Collections.emptyList();
         }
 
-        return visits.stream()
-                .filter(visit -> visit.getDateOfVisit().isBefore(LocalDate.now()))
-                .collect(Collectors.toList());
+        return when.equals("PREV") ? getPrevVisits(visits) : getIncVisits(visits);
     }
 
     @Override
-    public List<Visit> getAllIncomingVisitsForUser(String username) {
-        User user = userService.getUserByEmail(username);
-
-        List<Visit> visits = visitDao.getAllByUser(user);
-
-        if (visits.isEmpty()) {
-            return Collections.emptyList();
-        }
-
-        return visits.stream()
-                .filter(visit -> visit.getDateOfVisit().isAfter(LocalDate.now()))
-                .collect(Collectors.toList());
+    public List<Visit> getAllDailyDoctorsVisits(Doctor doctor) {
+        return visitDao.getAllByDoctorAndDateOfVisit(doctor, LocalDate.now());
     }
 
     @Override
@@ -98,5 +88,24 @@ public class DefaultVisitService implements VisitService {
         }
 
         return scheduleList;
+    }
+
+    private List<Visit> getPrevVisits(List<Visit> visits) {
+        return visits.stream()
+                .filter(visit -> visit.getDateOfVisit().isBefore(LocalDate.now()))
+                .collect(Collectors.toList());
+    }
+
+    private List<Visit> getIncVisits(List<Visit> visits) {
+        return visits.stream()
+                .filter(visit -> visit.getDateOfVisit().isAfter(LocalDate.now()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void addNoteToVisit(int id, String note) {
+        Visit visit = visitDao.getById(id);
+
+        noteService.save(Note.builder().visit(visit).note(note).build());
     }
 }

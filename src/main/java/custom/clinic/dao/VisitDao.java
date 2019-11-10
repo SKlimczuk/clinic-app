@@ -16,5 +16,7 @@ public interface VisitDao extends JpaRepository<Visit, Integer> {
 
     List<Visit> getAllByUser(User user);
 
+    List<Visit> getAllByDoctor(Doctor doctor);
+
     List<Visit> getAllByDoctorAndDateOfVisit(Doctor doctor, LocalDate dateOfVisit);
 }
