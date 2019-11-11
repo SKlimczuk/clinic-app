@@ -25,6 +25,14 @@ hr {
     margin-bottom: 20px;
 }
 
+td, #active-leave {
+    text-align: center;
+}
+
+th[colspan="4"] {
+    text-align: center;
+}
+
 th[colspan="7"] {
     text-align: center;
 }
@@ -35,4 +43,9 @@ td, span, i {
 
 i:hover {
     color: dimgrey;
+}
+
+#doctor-form {
+    margin-top: 20px;
+    margin-bottom: 20px;
 }

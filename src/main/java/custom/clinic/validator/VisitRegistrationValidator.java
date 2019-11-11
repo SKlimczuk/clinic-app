@@ -1,9 +1,11 @@
 package custom.clinic.validator;
 
 import custom.clinic.model.Doctor;
+import custom.clinic.model.Leave;
 import custom.clinic.model.dto.VisitForm;
 import custom.clinic.service.DoctorService;
 import custom.clinic.service.VisitService;
+import org.apache.tomcat.jni.Local;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -39,10 +41,12 @@ public class VisitRegistrationValidator {
             errors.add("date cannot be after " + REGISTER_MONTH_FROM_NOW + "months (mentioned in info)");
             isDateValid = false;
         }
-
         if (!validTimeOfVisit(visitForm.getDoctor(), visitForm.getDateOfVisit(), visitForm.getTimeOfVisit()) && isDateValid) {
             errors.add("this hour is already taken, free visits: "
                     + visitService.getAvailableVisitsForChosenDoctorAndDay(visitForm.getDoctor(), visitForm.getDateOfVisit()));
+        }
+        if (isVisitDuringDoctorsLeave(visitForm.getDateOfVisit(), visitForm.getDoctor())) {
+            errors.add("chosen doctor is on leave");
         }
 
         return errors;
@@ -64,5 +68,17 @@ public class VisitRegistrationValidator {
         List<Integer> availableVisits = visitService.getAvailableVisitsForChosenDoctorAndDay(doctor, date);
 
         return availableVisits.stream().anyMatch(v -> v.equals(Integer.valueOf(hour)));
+    }
+
+    private boolean isVisitDuringDoctorsLeave(LocalDate date, Doctor doctor) {
+        List<Leave> leaves = doctor.getLeaves();
+
+        if(leaves.isEmpty()) {
+            return true;
+        }
+
+         return leaves.stream()
+                 .filter(leave -> leave.isActive())
+                 .anyMatch(leave -> date.isAfter(leave.getBegin()) && date.isBefore(leave.getEnd()));
     }
 }

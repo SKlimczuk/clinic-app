@@ -8,6 +8,7 @@ import custom.clinic.service.UserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class DefaultLeaveService implements LeaveService {
@@ -31,5 +32,22 @@ public class DefaultLeaveService implements LeaveService {
                 .doctor(userService.getCurrentUser().getDoctor())
                 .isActive(false)
                 .build();
+    }
+
+    @Override
+    public List<Leave> getAllLeaves() {
+        return leaveDao.findAll();
+    }
+
+    @Override
+    public Leave getLeaveById(int id) {
+        return leaveDao.getOne(id);
+    }
+
+    @Override
+    public void changeLeaveStatus(int id, boolean status) {
+        Leave leave = getLeaveById(id);
+        leave.setActive(status);
+        leaveDao.save(leave);
     }
 }

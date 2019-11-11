@@ -1,8 +1,11 @@
 package custom.clinic.service.impl;
 
 import custom.clinic.dao.UserDao;
+import custom.clinic.model.Doctor;
 import custom.clinic.model.User;
+import custom.clinic.model.dto.DoctorForm;
 import custom.clinic.model.dto.RegisterForm;
+import custom.clinic.service.DoctorService;
 import custom.clinic.service.RoleService;
 import custom.clinic.service.UserService;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.print.Doc;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +29,8 @@ public class DefaultUserService implements UserService {
     private BCryptPasswordEncoder passwordEncoder;
     @Resource
     private RoleService roleService;
+    @Resource
+    private DoctorService doctorService;
 
     @Override
     public void save(User user) {
@@ -45,6 +51,26 @@ public class DefaultUserService implements UserService {
                 .phone(userDto.getPhone())
                 .password(passwordEncoder.encode(userDto.getPassword()))
                 .roles(Collections.singletonList(roleService.findByName("ROLE_PATIENT")))
+                .build();
+    }
+
+    @Override
+    public User createDoctorFromDto(DoctorForm doctorDto) {
+        Doctor doctor = Doctor.builder()
+                .specialization(doctorDto.getSpecialization())
+                .build();
+
+        doctorService.save(doctor);
+
+        return User.builder()
+                .name(doctorDto.getName())
+                .surname(doctorDto.getSurname())
+                .email(doctorDto.getEmail())
+                .pesel(doctorDto.getPesel())
+                .phone(doctorDto.getPhone())
+                .password(passwordEncoder.encode(doctorDto.getPassword()))
+                .doctor(doctor)
+                .roles(Collections.singletonList(roleService.findByName("ROLE_DOCTOR")))
                 .build();
     }
 

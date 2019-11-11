@@ -28,6 +28,12 @@
                     <a class="nav-link" href="/account/">DOCTOR</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="#doctor-form">ADD EMPLOYEE</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#leaves">LEAVES</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="#employees">EMPLOYEES</a>
                 </li>
                 <li class="nav-item">
@@ -43,8 +49,95 @@
 
 <div class="container-fluid">
 
-    <div>
-        dodawanie doktora
+    <div th:if="${isDoctorFormValid == false}" class="alert">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Form is not valid</strong> Please try again.
+            <ul>
+                <li th:each="error:${errors}" th:text="${error}"></li>
+            </ul>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+
+    <div id="doctor-form" class="row justify-content-center">
+        <div class="col-6 sm-6 align-self-center">
+            <form name="registerForm" action="#" th:action="@{/admin/add/doctor}" th:object="${doctor}" method="post">
+                <div class="form-group">
+                    <input type="text" id="reg-name" class="form-control form-control-sm" placeholder="name" th:field="*{name}" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="reg-surname" class="form-control form-control-sm" placeholder="surname" th:field="*{surname}" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="reg-specialization" class="form-control form-control-sm" placeholder="specialization" th:field="*{specialization}" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="reg-email" class="form-control form-control-sm" placeholder="email" th:field="*{email}" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="reg-pesel" class="form-control form-control-sm" placeholder="pesel" th:field="*{pesel}" required>
+                </div>
+                <div class="form-group">
+                    <input type="date" pattern="dd-MM-yyyy" id="reg-birth" class="form-control form-control-sm" placeholder="date of birth" th:field="*{dateOfBirth}" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="reg-phone" class="form-control form-control-sm"  placeholder="phone" th:field="*{phone}" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="reg-password" class="form-control form-control-sm" placeholder="password" th:field="*{password}" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="reg-mpassword" class="form-control form-control-sm" placeholder="matching password" th:field="*{matchingPassword}" required>
+                </div>
+                <div>
+                    <input type="submit" id="register-submit-btn" class="btn btn-outline-success btn-block btn-sm" value="REGISTER">
+                    <input type="reset" class="btn btn-outline-dark btn-block btn-sm" value="RESET">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <hr>
+
+    <div id="leaves" class="leaves row justify-content-center">
+        <div col-8>
+            <div th:if="${leaves!=null and !leaves.isEmpty()}">
+                <table class="table">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th colspan="4">LEAVES</th>
+                    </tr>
+                    <tr>
+                        <th scope="col">Employee</th>
+                        <th scope="col">Begin</th>
+                        <th scope="col">End</th>
+                        <th scope="col">Active</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:each="leave : ${leaves}">
+                        <tr>
+                            <td th:text="${leave.doctor}"></td>
+                            <td th:text="${leave.begin}"></td>
+                            <td th:text="${leave.end}"></td>
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" id="active-leave" name="" th:onclick="'changeActiveLeave(\'' + ${leave.id} + '\');'"/>
+                                </div>
+                            </td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+            </div>
+            <div th:unless="${doctors!=null and !doctors.isEmpty()}">
+                <div class="alert alert-info" role="alert">
+                    No employees.
+                </div>
+            </div>
+        </div>
     </div>
 
     <hr>

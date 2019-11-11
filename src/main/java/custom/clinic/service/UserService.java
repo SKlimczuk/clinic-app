@@ -1,6 +1,7 @@
 package custom.clinic.service;
 
 import custom.clinic.model.User;
+import custom.clinic.model.dto.DoctorForm;
 import custom.clinic.model.dto.RegisterForm;
 
 import java.util.List;
@@ -14,6 +15,8 @@ public interface UserService {
     void save(User user);
 
     User createUserFromDto(RegisterForm userDto);
+
+    User createDoctorFromDto(DoctorForm doctorDto);
 
     User getCurrentUser();
 

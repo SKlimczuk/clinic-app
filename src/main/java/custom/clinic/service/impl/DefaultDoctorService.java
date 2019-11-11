@@ -19,6 +19,11 @@ public class DefaultDoctorService implements DoctorService {
     private UserService userService;
 
     @Override
+    public void save(Doctor doctor) {
+        doctorDao.save(doctor);
+    }
+
+    @Override
     public List<Doctor> getAllDoctors() {
         return doctorDao.findAll();
     }

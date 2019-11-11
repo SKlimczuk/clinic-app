@@ -1,5 +1,6 @@
 package custom.clinic.validator;
 
+import custom.clinic.model.dto.DoctorForm;
 import custom.clinic.model.dto.RegisterForm;
 import org.springframework.stereotype.Component;
 
@@ -32,6 +33,31 @@ public class RegistrationValidator {
             errors.add("invalid phone");
         }
         if(isPasswordValid(registerForm.getPassword(), registerForm.getMatchingPassword())) {
+            errors.add("password does not match");
+        }
+
+        return errors;
+    }
+
+    public List<String> isDoctorFormValid(DoctorForm doctorForm) {
+        List<String> errors = new ArrayList<>();
+
+        if(!isNameAndSurnameValid(doctorForm.getName(), doctorForm.getSurname())) {
+            errors.add("invalid name/surname");
+        }
+        if(!isSpecializationValid(doctorForm.getSpecialization())) {
+            errors.add("invalid specialization");
+        }
+        if(!isEmailValid(doctorForm.getEmail())) {
+            errors.add("invalid email");
+        }
+        if(!isPeselValid(doctorForm.getPesel(), doctorForm.getDateOfBirth())) {
+            errors.add("invalid pesel/date of birth");
+        }
+        if(!isPhoneValid(doctorForm.getPhone())) {
+            errors.add("invalid phone");
+        }
+        if(isPasswordValid(doctorForm.getPassword(), doctorForm.getMatchingPassword())) {
             errors.add("password does not match");
         }
 
@@ -100,5 +126,13 @@ public class RegistrationValidator {
         }
 
         return !password.equals(matchingPassword);
+    }
+
+    private boolean isSpecializationValid(String specialization) {
+        if("".equals(specialization)){
+            return false;
+        }
+
+        return Pattern.matches(SPECIAL_CHAR_REGEX, specialization);
     }
 }

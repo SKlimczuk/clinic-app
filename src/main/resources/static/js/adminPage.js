@@ -113,6 +113,28 @@ function deleteUser(id) {
         data: entryData
     }).done(function (response) {
         location = location.href;
-        console.log("delete success")
+        console.log("delete success");
+    });
+}
+
+function changeActiveLeave(id) {
+
+    var leaveCheckbox = document.getElementById('active-leave');
+    var status = false;
+
+    if(leaveCheckbox.checked) {
+        status = true;
+    }
+
+    var entryData = {
+        id : id,
+        status : status
+    };
+
+    $.ajax({
+        url: '/admin/leave/status',
+        data: entryData
+    }).done(function (response) {
+        console.log("status change success");
     });
 }
