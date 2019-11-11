@@ -182,6 +182,19 @@
 
         <div id="leave" class="leave row justify-content-center">
             <div col-8>
+
+                <div th:if="${isLeaveFormValid == false}" class="alert">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Form is not valid</strong> Please try again.
+                        <ul>
+                            <li th:each="error:${leaveErrors}" th:text="${error}"></li>
+                        </ul>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+
                 <form name="leaveForm" action="#" th:action="@{/account/leave}" th:object="${leave}" method="post">
                     <div class="form-group">
                         <label for="from-date">Begin:</label>

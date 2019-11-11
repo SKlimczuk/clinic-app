@@ -4,10 +4,8 @@ import custom.clinic.model.User;
 import custom.clinic.model.Visit;
 import custom.clinic.model.dto.LeaveForm;
 import custom.clinic.model.dto.VisitForm;
-import custom.clinic.service.DoctorService;
-import custom.clinic.service.NoteService;
-import custom.clinic.service.UserService;
-import custom.clinic.service.VisitService;
+import custom.clinic.service.*;
+import custom.clinic.validator.LeaveValidator;
 import custom.clinic.validator.VisitRegistrationValidator;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.http.MediaType;
@@ -42,6 +40,10 @@ public class AccountPageController {
     private NoteService noteService;
     @Resource
     private UserService userService;
+    @Resource
+    private LeaveValidator leaveValidator;
+    @Resource
+    private LeaveService leaveService;
 
     @GetMapping("/")
     public String accountPage(Model model) {
@@ -108,6 +110,23 @@ public class AccountPageController {
         Map<String, Object> result = new HashMap<>();
 
         return result;
+    }
+
+    @PostMapping("/leave")
+    public String applyForLeave(@ModelAttribute("leave") LeaveForm leaveForm, final RedirectAttributes redirectAttributes) {
+        List<String> errors = leaveValidator.isVisitFormValid(leaveForm);
+
+        if(!errors.isEmpty()) {
+            redirectAttributes.addFlashAttribute("leaveErrors", errors);
+            redirectAttributes.addFlashAttribute("isLeaveFormValid", false);
+            return "redirect:/account/";
+        }
+
+        redirectAttributes.addFlashAttribute("isLeaveFormValid", true);
+
+        leaveService.save(leaveService.createLeaveFromDto(leaveForm));
+
+        return "redirect:/account/";
     }
 
     @InitBinder

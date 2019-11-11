@@ -30,6 +30,9 @@ public class Doctor implements Serializable {
     @OneToMany(mappedBy = "doctor")
     private List<Visit> visits;
 
+    @OneToMany(mappedBy = "doctor")
+    private List<Leave> leaves;
+
     @Override
     public String toString() {
         return  "dr " + this.specialization + " " + this.user.getName() + " " + this.user.getSurname();
