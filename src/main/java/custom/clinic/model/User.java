@@ -1,5 +1,7 @@
 package custom.clinic.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User implements UserDetails, Serializable {
 
     @Id
@@ -41,9 +44,11 @@ public class User implements UserDetails, Serializable {
     private String phone;
 
     @OneToOne(mappedBy = "user")
+    @JsonManagedReference
     private Doctor doctor;
 
     @OneToMany(mappedBy = "user")
+    @JsonManagedReference
     private List<Visit> visits;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -53,6 +58,7 @@ public class User implements UserDetails, Serializable {
                     name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id"))
+    @JsonManagedReference
     private Collection<Role> roles;
 
     @Override

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>admin</title>
+    <link rel="stylesheet" href="/css/adminPage.css">
+    <link rel="stylesheet" href="/css/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+
+    <script src="https://use.fontawesome.com/c4850ae3d6.js"></script>
+</head>
+<body>
+
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/account/">CLINIC</a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/account/">DOCTOR</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#employees">EMPLOYEES</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#patients">PATIENTS</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">LOG OUT</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+
+    <div>
+        dodawanie doktora
+    </div>
+
+    <hr>
+
+    <div id="employees" class="allDoctors row justify-content-center">
+        <div col-8>
+            <div th:if="${doctors!=null and !doctors.isEmpty()}">
+                <table class="table">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th colspan="7">EMPLOYEES</th>
+                    </tr>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Surname</th>
+                        <th scope="col">email</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Pesel</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:each="doctor : ${doctors}">
+                        <tr>
+                            <td th:text="${doctor.name}"></td>
+                            <td th:text="${doctor.surname}"></td>
+                            <td th:text="${doctor.email}"></td>
+                            <td th:text="${doctor.phone}"></td>
+                            <td th:text="${doctor.pesel}"></td>
+                            <td>
+                                <span class="note-icon" th:onclick="'editDoctor(\'' + ${doctor.id} + '\');'">
+                                    <i class="fas fa-user-edit"></i>
+                                </span>
+                            </td>
+                            <td>
+                                <span class="note-icon" th:onclick="'deleteUser(\'' + ${doctor.id} + '\');'">
+                                    <i class="fas fa-user-times"></i>
+                                </span>
+                            </td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+            </div>
+            <div th:unless="${doctors!=null and !doctors.isEmpty()}">
+                <div class="alert alert-info" role="alert">
+                    No employees.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div id="patients" class="patients row justify-content-center">
+        <div col-8>
+            <div th:if="${patients!=null and !patients.isEmpty()}">
+                <table class="table">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th colspan="7">Patients</th>
+                    </tr>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Surname</th>
+                        <th scope="col">email</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Pesel</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:each="patient : ${patients}">
+                        <tr>
+                            <td th:text="${patient.name}"></td>
+                            <td th:text="${patient.surname}"></td>
+                            <td th:text="${patient.email}"></td>
+                            <td th:text="${patient.phone}"></td>
+                            <td th:text="${patient.pesel}"></td>
+                            <td>
+                                <span class="note-icon" th:onclick="'editPatient(\'' + ${patient.id} + '\');'">
+                                    <i class="fas fa-user-edit"></i>
+                                </span>
+                            </td>
+                            <td>
+                                <span class="note-icon" th:onclick="'deleteUser(\'' + ${patient.id} + '\');'">
+                                    <i class="fas fa-user-times"></i>
+                                </span>
+                            </td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+            </div>
+            <div th:unless="${patients!=null and !patients.isEmpty()}">
+                <div class="alert alert-info" role="alert">
+                    No patients.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="update-patient" tabindex="-1" role="dialog" aria-labelledby="updatePatientModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updatePatientModal">Update patient</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <span id="patient-id" hidden></span>
+                    <form>
+                        <div class="form-group">
+                            <input type="text" id="upd-name" class="form-control form-control-sm" placeholder="name" >
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="upd-surname" class="form-control form-control-sm" placeholder="surname">
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="upd-email" class="form-control form-control-sm" placeholder="email">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="upd-pesel" class="form-control form-control-sm" placeholder="pesel">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="upd-phone" class="form-control form-control-sm"  placeholder="phone">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="upd-password" class="form-control form-control-sm" placeholder="password">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" id="update-patient-btn" class="btn btn-primary">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="update-doctor" tabindex="-1" role="dialog" aria-labelledby="updateDoctorModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateDoctorModal">Update doctor</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <span id="doctor-id" hidden></span>
+                    <form>
+                        <div class="form-group">
+                            <input type="text" id="updd-name" class="form-control form-control-sm" placeholder="name" >
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="updd-surname" class="form-control form-control-sm" placeholder="surname">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="updd-specialization" class="form-control form-control-sm" placeholder="specialization">
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="updd-email" class="form-control form-control-sm" placeholder="email">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="updd-pesel" class="form-control form-control-sm" placeholder="pesel">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="updd-phone" class="form-control form-control-sm"  placeholder="phone">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="updd-password" class="form-control form-control-sm" placeholder="password">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" id="update-doctor-btn" class="btn btn-primary">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<footer id="footer" class="page-footer font-small bg-dark">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mb-4">
+
+            </div>
+            <div class="col-md-6 mb-4">
+
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright text-center">
+        © 2019 Copyright: Szymon Klimczuk
+    </div>
+</footer>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<script src="/js/adminPage.js"></script>
+</body>

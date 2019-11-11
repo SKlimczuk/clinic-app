@@ -1,5 +1,7 @@
 package custom.clinic.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,9 +27,11 @@ public class Doctor implements Serializable {
 
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonBackReference
     private User user;
 
     @OneToMany(mappedBy = "doctor")
+    @JsonManagedReference
     private List<Visit> visits;
 
     @OneToMany(mappedBy = "doctor")

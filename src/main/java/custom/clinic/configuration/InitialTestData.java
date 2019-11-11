@@ -9,7 +9,9 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 @Component
 public class InitialTestData implements ApplicationRunner {
@@ -32,6 +34,10 @@ public class InitialTestData implements ApplicationRunner {
         Role adminRole = Role.builder().name("ROLE_ADMIN").build();
         Role doctorRole = Role.builder().name("ROLE_DOCTOR").build();
 
+        List<Role> roles = new ArrayList<>();
+        roles.add(adminRole);
+        roles.add(doctorRole);
+
         roleDao.save(patientRole);
         roleDao.save(adminRole);
         roleDao.save(doctorRole);
@@ -40,6 +46,7 @@ public class InitialTestData implements ApplicationRunner {
 
         User doctorUser = User.builder().name("n").surname("s").email("d@d.pl").pesel("5").password(passwordEncoder.encode("pass")).roles(Collections.singletonList(doctorRole)).build();
         User doctorUser2 = User.builder().name("n1").surname("s1").email("d2@d2.pl").pesel("6").password(passwordEncoder.encode("pass")).roles(Collections.singletonList(doctorRole)).build();
+        User doctorUserAdmin = User.builder().name("admin").surname("admin").email("admin@admin.pl").pesel("62").password(passwordEncoder.encode("nimda")).roles(roles).build();
 
         userDao.save(User.builder().email("k@k.pl").pesel("1").password(passwordEncoder.encode("pass")).roles(Collections.singletonList(patientRole)).build());
         userDao.save(User.builder().email("s@s.pl").pesel("2").password(passwordEncoder.encode("pass")).roles(Collections.singletonList(patientRole)).build());
@@ -47,12 +54,15 @@ public class InitialTestData implements ApplicationRunner {
         userDao.save(user);
         userDao.save(doctorUser);
         userDao.save(doctorUser2);
+        userDao.save(doctorUserAdmin);
 
         Doctor doctor = Doctor.builder().user(doctorUser).specialization("doc1").build();
         Doctor doctor2 = Doctor.builder().user(doctorUser2).specialization("doc1").build();
+        Doctor admin = Doctor.builder().user(doctorUserAdmin).specialization("doc1").build();
 
         doctorDao.save(doctor);
         doctorDao.save(doctor2);
+        doctorDao.save(admin);
 
         Visit visit = Visit.builder().user(user).dateOfVisit(LocalDate.now()).timeOfVisit(12).build();
 

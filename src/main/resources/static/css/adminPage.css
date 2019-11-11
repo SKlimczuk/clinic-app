@@ -1,0 +1,38 @@
+body {
+    background: url("../media/background.jpg");
+    background-size: cover;
+}
+
+footer {
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
+hr {
+    display: block;
+    margin: 0.5em auto;
+    border-style: inset;
+    border-width: 1px;
+}
+
+.allDoctors {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.patients {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+th[colspan="7"] {
+    text-align: center;
+}
+
+td, span, i {
+    text-align: center;
+}
+
+i:hover {
+    color: dimgrey;
+}

@@ -1,5 +1,6 @@
 package custom.clinic.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,5 +25,6 @@ public class Role implements Serializable {
     private String name;
 
     @ManyToMany(mappedBy = "roles")
+    @JsonBackReference
     private Collection<User> users;
 }
