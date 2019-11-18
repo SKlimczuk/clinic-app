@@ -5,7 +5,6 @@ import custom.clinic.model.Leave;
 import custom.clinic.model.dto.VisitForm;
 import custom.clinic.service.DoctorService;
 import custom.clinic.service.VisitService;
-import org.apache.tomcat.jni.Local;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -46,7 +45,7 @@ public class VisitRegistrationValidator {
                     + visitService.getAvailableVisitsForChosenDoctorAndDay(visitForm.getDoctor(), visitForm.getDateOfVisit()));
         }
         if (isVisitDuringDoctorsLeave(visitForm.getDateOfVisit(), visitForm.getDoctor())) {
-            errors.add("chosen doctor is on leave");
+            errors.add("chosen doctor is on leave" + getStartAndEndOfLeaveMessage(visitForm.getDateOfVisit(), visitForm.getDoctor()));
         }
 
         return errors;
@@ -74,11 +73,26 @@ public class VisitRegistrationValidator {
         List<Leave> leaves = doctor.getLeaves();
 
         if(leaves.isEmpty()) {
-            return true;
+            return false;
         }
 
          return leaves.stream()
-                 .filter(leave -> leave.isActive())
-                 .anyMatch(leave -> date.isAfter(leave.getBegin()) && date.isBefore(leave.getEnd()));
+                 .filter(Leave::isActive)
+                 .anyMatch(leave -> isDateBetweenTerm(date, leave));
+    }
+
+    private String getStartAndEndOfLeaveMessage(LocalDate date, Doctor doctor) {
+        Leave leave = doctor.getLeaves().stream()
+                .filter(l -> date.isAfter(l.getBegin()) && date.isBefore(l.getEnd()))
+                .findFirst()
+                .get();
+
+        return " from " + leave.getBegin() + " to " + leave.getEnd();
+    }
+
+    private boolean isDateBetweenTerm(LocalDate date, Leave leave) {
+        return date.isEqual(leave.getBegin()) ||
+                (date.isAfter(leave.getBegin()) && date.isBefore(leave.getEnd())) ||
+                date.isEqual(leave.getEnd());
     }
 }

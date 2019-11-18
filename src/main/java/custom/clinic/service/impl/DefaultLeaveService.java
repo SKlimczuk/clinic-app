@@ -18,7 +18,6 @@ public class DefaultLeaveService implements LeaveService {
     @Resource
     private UserService userService;
 
-
     @Override
     public void save(Leave leave) {
         leaveDao.save(leave);

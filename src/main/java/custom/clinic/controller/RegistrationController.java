@@ -22,8 +22,8 @@ public class RegistrationController {
 
     @Resource
     private UserService userService;
-//    @Resource
-//    private EmailService emailService;
+    @Resource
+    private EmailService emailService;
     @Resource
     private RegistrationValidator registrationValidator;
 

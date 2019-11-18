@@ -13,7 +13,6 @@ public class DefaultRoleService implements RoleService {
     @Resource
     private RoleDao roleDao;
 
-
     @Override
     public Role findByName(String name) {
         return roleDao.findByName(name);

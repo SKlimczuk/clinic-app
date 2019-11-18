@@ -66,7 +66,7 @@ public class AdminPageController {
 
     @GetMapping("/remove")
     @ResponseBody
-    public String getPatients(@RequestParam(name = "id") int id) {
+    public String removeUser(@RequestParam(name = "id") int id) {
         userService.removeUser(id);
 
         return "success";

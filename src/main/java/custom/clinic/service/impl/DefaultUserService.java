@@ -9,12 +9,10 @@ import custom.clinic.service.DoctorService;
 import custom.clinic.service.RoleService;
 import custom.clinic.service.UserService;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.print.Doc;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -114,7 +112,17 @@ public class DefaultUserService implements UserService {
     public void removeUser(int id) {
         Optional<User> opUser = userDao.findById(id);
 
-        opUser.ifPresent(user -> userDao.delete(user));
+        if (opUser.isPresent()) {
+            User user = opUser.get();
+
+            if (isDoctor(user)) {
+                deleteDoctors(user);
+            } else {
+                deleteUsers(user);
+            }
+
+            userDao.delete(user);
+        }
     }
 
     @Override
@@ -175,5 +183,13 @@ public class DefaultUserService implements UserService {
         }
 
         userDao.save(userToUpdate);
+    }
+
+    private void deleteUsers(User User) {
+
+    }
+
+    private void deleteDoctors(User User) {
+
     }
 }

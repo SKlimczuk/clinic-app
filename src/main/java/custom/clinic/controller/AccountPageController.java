@@ -76,7 +76,6 @@ public class AccountPageController {
         redirectAttributes.addFlashAttribute("isFormValid", true);
 
         Visit visit = visitService.createVisitFromDto(visitForm);
-
         visitService.save(visit);
 
         if(!"".equals(visitForm.getNote())) {
