@@ -20,7 +20,9 @@ public class DefaultDoctorService implements DoctorService {
 
     @Override
     public void save(Doctor doctor) {
-        doctorDao.save(doctor);
+        if (doctor != null) {
+            doctorDao.save(doctor);
+        }
     }
 
     @Override
