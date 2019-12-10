@@ -23,4 +23,6 @@ public interface VisitService {
     List<Integer> getAvailableVisitsForChosenDoctorAndDay(Doctor doctor, LocalDate localDate);
 
     void addNoteToVisit(int id, String note);
+
+    LocalDate convertStringToLocalDate(String dateToConvert);
 }

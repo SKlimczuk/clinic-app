@@ -131,6 +131,11 @@ public class DefaultUserService implements UserService {
     }
 
     @Override
+    public User getUserByPesel(String pesel) {
+        return !pesel.isEmpty() ? userDao.findUserByPesel(pesel) : null;
+    }
+
+    @Override
     public void updateUser(int id, String name, String surname, String email, String phone, String pesel, String password) {
         User userToUpdate = userDao.getOne(id);
 

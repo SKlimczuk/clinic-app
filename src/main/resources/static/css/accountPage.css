@@ -6,6 +6,7 @@ body {
 footer {
     padding-top: 20px;
     padding-bottom: 10px;
+    bottom: 0;
 }
 
 hr {
@@ -35,4 +36,8 @@ td, span, i {
 
 i:hover {
     color: dimgrey;
+}
+
+#message {
+    color: red;
 }

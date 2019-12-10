@@ -1,5 +1,6 @@
 package custom.clinic.controller;
 
+import custom.clinic.model.Doctor;
 import custom.clinic.model.User;
 import custom.clinic.model.Visit;
 import custom.clinic.model.dto.LeaveForm;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -105,8 +107,14 @@ public class AccountPageController {
 
     @GetMapping(path = "/free-hours", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Map<String, Object> getFreeVisitsHours(@RequestParam int date) {
+    public Map<String, Object> getFreeVisitsHours(@RequestParam(name = "id") int id, @RequestParam("date") String date) {
+        Doctor doctor = doctorService.getDoctorById(id);
+        LocalDate convertedDate = visitService.convertStringToLocalDate(date);
+
+        List<Integer> hours = visitService.getAvailableVisitsForChosenDoctorAndDay(doctor, convertedDate);
+
         Map<String, Object> result = new HashMap<>();
+        result.put("hours", hours);
 
         return result;
     }

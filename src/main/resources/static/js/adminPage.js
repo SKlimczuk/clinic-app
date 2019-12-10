@@ -11,7 +11,7 @@ function editDoctor(id) {
     }).done(function (response) {
         document.getElementById('updd-name').placeholder = response.user.name;
         document.getElementById('updd-surname').placeholder = response.user.surname;
-        document.getElementById('updd-specialization').placeholder = response.user.surname;
+        document.getElementById('updd-specialization').placeholder = response.user.doctor.specialization;
         document.getElementById('updd-email').placeholder = response.user.email;
         document.getElementById('updd-phone').placeholder = response.user.phone;
         document.getElementById('updd-pesel').placeholder = response.user.pesel;

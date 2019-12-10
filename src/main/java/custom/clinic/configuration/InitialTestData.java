@@ -46,14 +46,14 @@ public class InitialTestData implements ApplicationRunner {
 
         // ----- users : patients and doctors
 
-        User user1 = User.builder().name("jan").surname("kowalski").email("u@u.pl").pesel("4").password(passwordEncoder.encode("pass")).roles(Collections.singletonList(patientRole)).build();
-        User user2 = User.builder().name("marek").surname("nowak").email("k@k.pl").pesel("1").password(passwordEncoder.encode("pass")).roles(Collections.singletonList(patientRole)).build();
-        User user3 = User.builder().name("kamil").surname("wozniak").email("s@s.pl").pesel("2").password(passwordEncoder.encode("pass")).roles(Collections.singletonList(patientRole)).build();
-        User user4 = User.builder().name("jurek").surname("dubiel").email("e@e.pl").pesel("3").password(passwordEncoder.encode("pass")).roles(Collections.singletonList(patientRole)).build();
+        User user1 = User.builder().name("jan").surname("kowalski").email("u@u.pl").pesel("4").phone("123123123").password(passwordEncoder.encode("pass")).roles(Collections.singletonList(patientRole)).build();
+        User user2 = User.builder().name("marek").surname("nowak").email("k@k.pl").pesel("1").phone("123123123").password(passwordEncoder.encode("pass")).roles(Collections.singletonList(patientRole)).build();
+        User user3 = User.builder().name("kamil").surname("wozniak").email("s@s.pl").pesel("2").phone("123123123").password(passwordEncoder.encode("pass")).roles(Collections.singletonList(patientRole)).build();
+        User user4 = User.builder().name("jurek").surname("dubiel").email("e@e.pl").pesel("3").phone("123123123").password(passwordEncoder.encode("pass")).roles(Collections.singletonList(patientRole)).build();
 
-        User userDoctor1 = User.builder().name("marcin").surname("kowal").email("m@k.pl").pesel("5").password(passwordEncoder.encode("pass")).roles(Collections.singletonList(doctorRole)).build();
-        User userDoctor2 = User.builder().name("aleksander").surname("morski").email("a@dm.pl").pesel("6").password(passwordEncoder.encode("pass")).roles(Collections.singletonList(doctorRole)).build();
-        User userDoctor3 = User.builder().name("karol").surname("kawalek").email("admin@a.pl").pesel("62").password(passwordEncoder.encode("pass")).roles(roles).build();
+        User userDoctor1 = User.builder().name("marcin").surname("kowal").email("m@k.pl").pesel("5").phone("123123123").password(passwordEncoder.encode("pass")).roles(Collections.singletonList(doctorRole)).build();
+        User userDoctor2 = User.builder().name("aleksander").surname("morski").email("a@dm.pl").pesel("6").phone("123123123").password(passwordEncoder.encode("pass")).roles(Collections.singletonList(doctorRole)).build();
+        User userDoctor3 = User.builder().name("karol").surname("kawalek").email("admin@a.pl").pesel("62").phone("123123123").password(passwordEncoder.encode("pass")).roles(roles).build();
 
         userDao.save(user1);
         userDao.save(user2);

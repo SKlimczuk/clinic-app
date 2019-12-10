@@ -64,36 +64,63 @@
     <div id="doctor-form" class="row justify-content-center">
         <div class="col-6 sm-6 align-self-center">
             <form name="registerForm" action="#" th:action="@{/admin/add/doctor}" th:object="${doctor}" method="post">
-                <div class="form-group">
-                    <input type="text" id="reg-name" class="form-control form-control-sm" placeholder="name" th:field="*{name}" required>
+                <div class="form-group row">
+                    <label for="reg-name" class="col-sm-2 col-form-label">name*</label>
+                    <div class="col-sm-10">
+                        <input type="text" id="reg-name" class="form-control form-control-sm" placeholder="name" th:field="*{name}" required/>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <input type="text" id="reg-surname" class="form-control form-control-sm" placeholder="surname" th:field="*{surname}" required>
+                <div class="form-group row">
+                    <label for="reg-surname" class="col-sm-2 col-form-label">surname*</label>
+                    <div class="col-sm-10">
+                        <input type="text" id="reg-surname" class="form-control form-control-sm" placeholder="surname" th:field="*{surname}" required/>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <input type="text" id="reg-specialization" class="form-control form-control-sm" placeholder="specialization" th:field="*{specialization}" required>
+                <div class="form-group row">
+                    <label for="reg-specialization" class="col-sm-2 col-form-label">specialization*</label>
+                    <div class="col-sm-10">
+                        <input type="text" id="reg-specialization" class="form-control form-control-sm" placeholder="specialization" th:field="*{specialization}" required/>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <input type="email" id="reg-email" class="form-control form-control-sm" placeholder="email" th:field="*{email}" required>
+                <div class="form-group row">
+                    <label for="reg-email" class="col-sm-2 col-form-label">email*</label>
+                    <div class="col-sm-10">
+                        <input type="email" id="reg-email" class="form-control form-control-sm" placeholder="email" th:field="*{email}" required/>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <input type="text" id="reg-pesel" class="form-control form-control-sm" placeholder="pesel" th:field="*{pesel}" required>
+                <div class="form-group row">
+                    <label for="reg-pesel" class="col-sm-2 col-form-label">pesel*</label>
+                    <div class="col-sm-10">
+                        <input type="text" id="reg-pesel" class="form-control form-control-sm" placeholder="pesel" th:field="*{pesel}" required/>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <input type="date" pattern="dd-MM-yyyy" id="reg-birth" class="form-control form-control-sm" placeholder="date of birth" th:field="*{dateOfBirth}" required>
+                <div class="form-group row">
+                    <label for="reg-birth" class="col-sm-2 col-form-label">date of birth*</label>
+                    <div class="col-sm-10">
+                        <input type="date" pattern="dd-MM-yyyy" id="reg-birth" class="form-control form-control-sm" placeholder="date of birth" th:field="*{dateOfBirth}" required/>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <input type="text" id="reg-phone" class="form-control form-control-sm"  placeholder="phone" th:field="*{phone}" required>
+                <div class="form-group row">
+                    <label for="reg-phone" class="col-sm-2 col-form-label">phone*</label>
+                    <div class="col-sm-10">
+                        <input type="text" id="reg-phone" class="form-control form-control-sm"  placeholder="phone" th:field="*{phone}" required/>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <input type="password" id="reg-password" class="form-control form-control-sm" placeholder="password" th:field="*{password}" required>
+                <div class="form-group row">
+                    <label for="reg-password" class="col-sm-2 col-form-label">password*</label>
+                    <div class="col-sm-10">
+                        <input type="password" id="reg-password" class="form-control form-control-sm" placeholder="password" th:field="*{password}" required/>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <input type="password" id="reg-mpassword" class="form-control form-control-sm" placeholder="matching password" th:field="*{matchingPassword}" required>
+                <div class="form-group row">
+                    <label for="reg-mpassword" class="col-sm-2 col-form-label">matching password*</label>
+                    <div class="col-sm-10">
+                        <input type="password" id="reg-mpassword" class="form-control form-control-sm" placeholder="matching password" th:field="*{matchingPassword}" required/>
+                    </div>
                 </div>
                 <div>
-                    <input type="submit" id="register-submit-btn" class="btn btn-outline-success btn-block btn-sm" value="REGISTER">
-                    <input type="reset" class="btn btn-outline-dark btn-block btn-sm" value="RESET">
+                    <input type="submit" id="register-submit-btn" class="btn btn-outline-success btn-block btn-sm" value="REGISTER"/>
+                    <input type="reset" class="btn btn-outline-dark btn-block btn-sm" value="RESET"/>
                 </div>
             </form>
         </div>
@@ -132,9 +159,9 @@
                     </tbody>
                 </table>
             </div>
-            <div th:unless="${doctors!=null and !doctors.isEmpty()}">
+            <div th:unless="${leaves!=null and !leaves.isEmpty()}">
                 <div class="alert alert-info" role="alert">
-                    No employees.
+                    No leave requests.
                 </div>
             </div>
         </div>
@@ -255,22 +282,28 @@
                     <span id="patient-id" hidden></span>
                     <form>
                         <div class="form-group">
-                            <input type="text" id="upd-name" class="form-control form-control-sm" placeholder="name" >
+                            <label for="upd-name">name</label>
+                            <input type="text" id="upd-name" class="form-control form-control-sm" placeholder="name" />
                         </div>
                         <div class="form-group">
-                            <input type="text" id="upd-surname" class="form-control form-control-sm" placeholder="surname">
+                            <label for="upd-surname">surname</label>
+                            <input type="text" id="upd-surname" class="form-control form-control-sm" placeholder="surname"/>
                         </div>
                         <div class="form-group">
-                            <input type="email" id="upd-email" class="form-control form-control-sm" placeholder="email">
+                            <label for="upd-email">email</label>
+                            <input type="email" id="upd-email" class="form-control form-control-sm" placeholder="email"/>
                         </div>
                         <div class="form-group">
-                            <input type="text" id="upd-pesel" class="form-control form-control-sm" placeholder="pesel">
+                            <label for="upd-pesel">pesel</label>
+                            <input type="text" id="upd-pesel" class="form-control form-control-sm" placeholder="pesel"/>
                         </div>
                         <div class="form-group">
-                            <input type="text" id="upd-phone" class="form-control form-control-sm"  placeholder="phone">
+                            <label for="upd-phone">phone</label>
+                            <input type="text" id="upd-phone" class="form-control form-control-sm"  placeholder="phone"/>
                         </div>
                         <div class="form-group">
-                            <input type="password" id="upd-password" class="form-control form-control-sm" placeholder="password">
+                            <label for="upd-password">password</label>
+                            <input type="password" id="upd-password" class="form-control form-control-sm" placeholder="password"/>
                         </div>
                     </form>
                 </div>
@@ -295,25 +328,32 @@
                     <span id="doctor-id" hidden></span>
                     <form>
                         <div class="form-group">
-                            <input type="text" id="updd-name" class="form-control form-control-sm" placeholder="name" >
+                            <label for="updd-name">name</label>
+                            <input type="text" id="updd-name" class="form-control form-control-sm" placeholder="name" />
                         </div>
                         <div class="form-group">
-                            <input type="text" id="updd-surname" class="form-control form-control-sm" placeholder="surname">
+                            <label for="updd-surname">surname</label>
+                            <input type="text" id="updd-surname" class="form-control form-control-sm" placeholder="surname"/>
                         </div>
                         <div class="form-group">
-                            <input type="text" id="updd-specialization" class="form-control form-control-sm" placeholder="specialization">
+                            <label for="updd-specialization">specialization</label>
+                            <input type="text" id="updd-specialization" class="form-control form-control-sm" placeholder="specialization"/>
                         </div>
                         <div class="form-group">
-                            <input type="email" id="updd-email" class="form-control form-control-sm" placeholder="email">
+                            <label for="updd-email">email</label>
+                            <input type="email" id="updd-email" class="form-control form-control-sm" placeholder="email"/>
                         </div>
                         <div class="form-group">
-                            <input type="text" id="updd-pesel" class="form-control form-control-sm" placeholder="pesel">
+                            <label for="updd-pesel">pesel</label>
+                            <input type="text" id="updd-pesel" class="form-control form-control-sm" placeholder="pesel"/>
                         </div>
                         <div class="form-group">
-                            <input type="text" id="updd-phone" class="form-control form-control-sm"  placeholder="phone">
+                            <label for="updd-phone">phone</label>
+                            <input type="text" id="updd-phone" class="form-control form-control-sm"  placeholder="phone"/>
                         </div>
                         <div class="form-group">
-                            <input type="password" id="updd-password" class="form-control form-control-sm" placeholder="password">
+                            <label for="updd-password">password</label>
+                            <input type="password" id="updd-password" class="form-control form-control-sm" placeholder="password"/>
                         </div>
                     </form>
                 </div>
@@ -328,16 +368,6 @@
 </div>
 
 <footer id="footer" class="page-footer font-small bg-dark">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 mb-4">
-
-            </div>
-            <div class="col-md-6 mb-4">
-
-            </div>
-        </div>
-    </div>
     <div class="footer-copyright text-center">
         © 2019 Copyright: Szymon Klimczuk
     </div>

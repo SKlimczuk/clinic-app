@@ -108,4 +108,15 @@ public class DefaultVisitService implements VisitService {
 
         noteService.save(Note.builder().visit(visit).note(note).build());
     }
+
+    @Override
+    public LocalDate convertStringToLocalDate(String dateToConvert) {
+        String[] params = dateToConvert.split("-");
+
+        int year = Integer.parseInt(params[0]);
+        int month = Integer.parseInt(params[1]);
+        int day = Integer.parseInt(params[2]);
+
+        return LocalDate.of(year, month, day);
+    }
 }

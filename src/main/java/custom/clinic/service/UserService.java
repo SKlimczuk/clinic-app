@@ -33,4 +33,6 @@ public interface UserService {
     void removeUser(int id);
 
     User getUserById(int id);
+
+    User getUserByPesel(String pesel);
 }

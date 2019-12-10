@@ -1,6 +1,8 @@
 body {
     background: url("../media/background.jpg");
     background-size: cover;
+    min-height: 400px;
+    margin-bottom: 20px;
 }
 
 footer {

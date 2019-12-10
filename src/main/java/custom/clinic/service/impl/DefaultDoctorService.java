@@ -26,6 +26,11 @@ public class DefaultDoctorService implements DoctorService {
     }
 
     @Override
+    public Doctor getDoctorById(int id) {
+        return doctorDao.getDoctorById(id);
+    }
+
+    @Override
     public List<Doctor> getAllDoctors() {
         return doctorDao.findAll();
     }

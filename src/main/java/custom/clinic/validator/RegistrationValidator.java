@@ -2,8 +2,10 @@ package custom.clinic.validator;
 
 import custom.clinic.model.dto.DoctorForm;
 import custom.clinic.model.dto.RegisterForm;
+import custom.clinic.service.UserService;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +13,9 @@ import java.util.regex.Pattern;
 
 @Component
 public class RegistrationValidator {
+
+    @Resource
+    private UserService userService;
 
     private static final String SPECIAL_CHAR_REGEX = "[^£§!@#$%^&*(),.?\":{}|<>~]+";
     private static final String EMAIL_REGEX = "^(.+)@(.+)\\.(.+)$";
@@ -20,6 +25,12 @@ public class RegistrationValidator {
     public List<String> isRegistrationFormValid(RegisterForm registerForm) {
         List<String> errors = new ArrayList<>();
 
+        if(isUserWithEmailAlreadyExists(registerForm.getEmail())) {
+            errors.add("user with this email is already exist");
+        }
+        if(isUserWithPeselAlreadyExists(registerForm.getPesel())) {
+            errors.add("user with this pesel is already exist");
+        }
         if(!isNameAndSurnameValid(registerForm.getName(), registerForm.getSurname())) {
             errors.add("invalid name/surname");
         }
@@ -129,10 +140,18 @@ public class RegistrationValidator {
     }
 
     private boolean isSpecializationValid(String specialization) {
-        if("".equals(specialization)){
+        if("".equals(specialization)) {
             return false;
         }
 
         return Pattern.matches(SPECIAL_CHAR_REGEX, specialization);
+    }
+
+    private boolean isUserWithEmailAlreadyExists(String email) {
+        return userService.getUserByEmail(email) != null;
+    }
+
+    private boolean isUserWithPeselAlreadyExists(String pesel) {
+        return userService.getUserByPesel(pesel) != null;
     }
 }
