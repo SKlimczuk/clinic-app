@@ -43,11 +43,11 @@ public class User implements UserDetails, Serializable {
 
     private String phone;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
     @JsonManagedReference
     private Doctor doctor;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     @JsonManagedReference
     private List<Visit> visits;
 

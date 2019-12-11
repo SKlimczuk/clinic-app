@@ -33,7 +33,9 @@ public class DefaultVisitService implements VisitService {
 
     @Override
     public void save(Visit visit) {
-        visitDao.save(visit);
+        if(visit != null) {
+            visitDao.save(visit);
+        }
     }
 
     @Override
@@ -105,8 +107,9 @@ public class DefaultVisitService implements VisitService {
     @Override
     public void addNoteToVisit(int id, String note) {
         Visit visit = visitDao.getById(id);
+        User currentUser = userService.getCurrentUser();
 
-        noteService.save(Note.builder().visit(visit).note(note).build());
+        noteService.save(Note.builder().visit(visit).note(noteService.prepareNote(currentUser, note)).build());
     }
 
     @Override

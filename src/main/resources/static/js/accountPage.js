@@ -48,7 +48,7 @@ function callForFreeHours(doctorId, date) {
 }
 
 function showNotesModal(id) {
-
+    $('#message-text')[0].value = '';
     $('#modal-visit-id').text(id);
 
     var entryData = {

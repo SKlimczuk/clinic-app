@@ -35,4 +35,6 @@ public interface UserService {
     User getUserById(int id);
 
     User getUserByPesel(String pesel);
+
+    String getUserSignature(User user);
 }

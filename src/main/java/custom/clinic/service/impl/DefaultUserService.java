@@ -136,6 +136,13 @@ public class DefaultUserService implements UserService {
     }
 
     @Override
+    public String getUserSignature(User user) {
+        String name = user.getName().substring(0, 1);
+        String surname = user.getSurname();
+        return name + ". " + surname;
+    }
+
+    @Override
     public void updateUser(int id, String name, String surname, String email, String phone, String pesel, String password) {
         User userToUpdate = userDao.getOne(id);
 

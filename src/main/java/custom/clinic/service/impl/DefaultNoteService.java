@@ -2,9 +2,11 @@ package custom.clinic.service.impl;
 
 import custom.clinic.dao.NoteDao;
 import custom.clinic.model.Note;
+import custom.clinic.model.User;
 import custom.clinic.model.Visit;
 import custom.clinic.model.dto.VisitForm;
 import custom.clinic.service.NoteService;
+import custom.clinic.service.UserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -15,6 +17,8 @@ public class DefaultNoteService implements NoteService {
 
     @Resource
     private NoteDao notesDao;
+    @Resource
+    private UserService userService;
 
     @Override
     public void save(Note note) {
@@ -28,7 +32,7 @@ public class DefaultNoteService implements NoteService {
     @Override
     public Note createNoteFromDto(VisitForm visitDto, Visit visit) {
         return Note.builder()
-                .note(visitDto.getNote())
+                .note(prepareNote(userService.getCurrentUser(), visitDto.getNote()))
                 .visit(visit)
                 .build();
     }
@@ -36,5 +40,10 @@ public class DefaultNoteService implements NoteService {
     @Override
     public List<Note> getAllNotesForVisit(Visit visit) {
         return notesDao.findAllByVisit(visit);
+    }
+
+    @Override
+    public String prepareNote(User user, String note) {
+        return userService.getUserSignature(user) + ": " + note;
     }
 }
