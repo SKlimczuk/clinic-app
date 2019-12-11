@@ -62,7 +62,8 @@
                         <tr>
                             <th scope="col">Date</th>
                             <th scope="col">Time</th>
-                            <th scope="col">Doctor</th>
+                            <th sec:authorize="hasRole('ROLE_PATIENT')" scope="col">Doctor</th>
+                            <th sec:authorize="hasRole('ROLE_DOCTOR')" scope="col">Patient</th>
                             <th scope="col">Notes</th>
                         </tr>
                     </thead>
@@ -71,7 +72,8 @@
                             <tr>
                                 <td th:text="${visit.dateOfVisit}"></td>
                                 <td th:text="${visit.timeOfVisit}"></td>
-                                <td th:text="${visit.doctor}"></td>
+                                <td sec:authorize="hasRole('ROLE_PATIENT')" th:text="${visit.doctor}"></td>
+                                <td sec:authorize="hasRole('ROLE_DOCTOR')" th:text="${visit.user}"></td>
                                 <td>
                                     <span class="note-icon" th:onclick="'showNotesModal(\'' + ${visit.id} + '\');'">
                                         <i class="fas fa-clipboard"></i>
@@ -162,7 +164,8 @@
                         <tr>
                             <th scope="col">Date</th>
                             <th scope="col">Time</th>
-                            <th scope="col">Doctor</th>
+                            <th sec:authorize="hasRole('ROLE_PATIENT')" scope="col">Doctor</th>
+                            <th sec:authorize="hasRole('ROLE_DOCTOR')" scope="col">Patient</th>
                             <th scope="col">Notes</th>
                         </tr>
                         </thead>
@@ -171,7 +174,8 @@
                             <tr>
                                 <td th:text="${visit.dateOfVisit}"></td>
                                 <td th:text="${visit.timeOfVisit}"></td>
-                                <td th:text="${visit.doctor}"></td>
+                                <td sec:authorize="hasRole('ROLE_PATIENT')" th:text="${visit.doctor}"></td>
+                                <td sec:authorize="hasRole('ROLE_DOCTOR')" th:text="${visit.user}"></td>
                                 <td>
                                     <span class="note-icon" th:onclick="'showNotesModal(\'' + ${visit.id} + '\');'">
                                         <i class="fas fa-clipboard"></i>
@@ -271,7 +275,8 @@
                     <tr>
                         <th scope="col">Date</th>
                         <th scope="col">Time</th>
-                        <th scope="col">Doctor</th>
+                        <th sec:authorize="hasRole('ROLE_PATIENT')" scope="col">Doctor</th>
+                        <th sec:authorize="hasRole('ROLE_DOCTOR')" scope="col">Patient</th>
                         <th scope="col">Notes</th>
                     </tr>
                     </thead>
@@ -280,7 +285,8 @@
                         <tr>
                             <td th:text="${visit.dateOfVisit}"></td>
                             <td th:text="${visit.timeOfVisit}"></td>
-                            <td th:text="${visit.doctor}"></td>
+                            <td sec:authorize="hasRole('ROLE_PATIENT')" th:text="${visit.doctor}"></td>
+                            <td sec:authorize="hasRole('ROLE_DOCTOR')" th:text="${visit.user}"></td>
                             <td>
                                     <span class="note-icon" th:onclick="'showNotesModal(\'' + ${visit.id} + '\');'">
                                         <i class="fas fa-clipboard"></i>

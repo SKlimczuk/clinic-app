@@ -15,6 +15,7 @@ import javax.annotation.Resource;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -67,7 +68,9 @@ public class DefaultVisitService implements VisitService {
 
     @Override
     public List<Visit> getAllDailyDoctorsVisits(Doctor doctor) {
-        return visitDao.getAllByDoctorAndDateOfVisit(doctor, LocalDate.now());
+        return visitDao.getAllByDoctorAndDateOfVisit(doctor, LocalDate.now()).stream()
+                .sorted(Comparator.comparing(Visit::getTimeOfVisit))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -95,12 +98,14 @@ public class DefaultVisitService implements VisitService {
     private List<Visit> getPrevVisits(List<Visit> visits) {
         return visits.stream()
                 .filter(visit -> visit.getDateOfVisit().isBefore(LocalDate.now()))
+                .sorted(Comparator.comparing(Visit::getDateOfVisit).reversed())
                 .collect(Collectors.toList());
     }
 
     private List<Visit> getIncVisits(List<Visit> visits) {
         return visits.stream()
-                .filter(visit -> visit.getDateOfVisit().isAfter(LocalDate.now()))
+                .filter(visit -> visit.getDateOfVisit().isEqual(LocalDate.now()) || visit.getDateOfVisit().isAfter(LocalDate.now()))
+                .sorted(Comparator.comparing(Visit::getDateOfVisit))
                 .collect(Collectors.toList());
     }
 
